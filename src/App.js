@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Body from './components/Body/Body';
 import Menu from './components/Menu/Menu';
@@ -19,6 +19,8 @@ function App() {
             <Route path='/' element={<Body />}/>
             <Route path='/createticket' element={<CreateTicket />}/>
             <Route path='/ticketsold' element={<Ticketssold />}/>
+
+            <Route path='*' element={<Navigate to={'/'}/>}/>
           </Routes>
         </div>
       </div>
