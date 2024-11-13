@@ -1,0 +1,56 @@
+.wrapper-header{
+    height: auto;
+    width: 100%;
+    padding: 5px 7px;
+    background-color: #22A5F7;
+    margin-bottom: 10px;
+    box-shadow: 0px 3px 3px var(--boxshadow);
+}
+
+.khung-header{
+    height: 85px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo{
+    height: 85px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo img{
+    height: auto;
+    width: 100%;
+}
+.title-name{
+    font-size: 35px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    text-transform: capitalize;
+}
+.title-name:hover{
+    color: #fff;
+}
+.avatar{
+    height: 100%;
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.avatar a{
+    color: #fff;
+    height: 40px;
+    width: 40px;
+    border-radius: 50px;
+    background-color: #a9a6a6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+}

@@ -1,0 +1,47 @@
+
+.wrapper-createticket{
+    height: auto;
+    width: 100%;
+    padding: 4px;
+}
+
+.box-input-ticket{
+    height: auto;
+    width: 100%;
+    padding: 5px 10px;
+    margin: 5px 0px;
+}
+.box-input-ticket span{
+    height: auto;
+    width: 100%;
+    display: inline-block;
+    font-weight: bold;
+}
+.box-input-ticket input{
+    height: 30px;
+    width: 100%;
+    border:none;
+    outline: none;
+    border-radius: 5px;
+    padding: 4px 8px;
+    box-shadow: 0px 3px 4px var(--boxshadow);
+}
+
+.box-input-ticket input::placeholder{
+    font-style: italic;
+    font-size: 13px;
+    color: rgb(207, 206, 205);
+}
+
+.btn-create-ticket{
+    height: 30px;
+    width: 140px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background-color: #35d2a8;
+    box-shadow: 0px 3px 4px #43a98e;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
