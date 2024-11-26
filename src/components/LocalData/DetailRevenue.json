@@ -1,0 +1,77 @@
+[
+  {
+    "datetime": "02/10/2024 08:00",
+    "amount": 18000,
+    "vehicle": "motorbike"
+  },
+  {
+    "datetime": "02/10/2024 09:00",
+    "amount": 25000,
+    "vehicle": "car"
+  },
+  {
+    "datetime": "02/10/2024 10:00",
+    "amount": 20000,
+    "vehicle": "motorbike"
+  },
+  {
+    "datetime": "02/10/2024 11:00",
+    "amount": 28000,
+    "vehicle": "car"
+  },
+  {
+    "datetime": "02/10/2024 12:00",
+    "amount": 17000,
+    "vehicle": "motorbike"
+  },
+  {
+    "datetime": "02/10/2024 13:00",
+    "amount": 27000,
+    "vehicle": "car"
+  },
+  {
+    "datetime": "02/10/2024 14:00",
+    "amount": 22000,
+    "vehicle": "motorbike"
+  },
+  {
+    "datetime": "02/10/2024 15:00",
+    "amount": 29000,
+    "vehicle": "car"
+  },
+  {
+    "datetime": "02/10/2024 16:00",
+    "amount": 19000,
+    "vehicle": "motorbike"
+  },
+  {
+    "datetime": "02/10/2024 17:00",
+    "amount": 31000,
+    "vehicle": "car"
+  },
+  {
+    "datetime": "02/10/2024 18:00",
+    "amount": 23000,
+    "vehicle": "motorbike"
+  },
+  {
+    "datetime": "02/10/2024 19:00",
+    "amount": 34000,
+    "vehicle": "car"
+  },
+  {
+    "datetime": "02/10/2024 20:00",
+    "amount": 20000,
+    "vehicle": "motorbike"
+  },
+  {
+    "datetime": "02/10/2024 21:00",
+    "amount": 35000,
+    "vehicle": "car"
+  },
+  {
+    "datetime": "02/10/2024 22:00",
+    "amount": 24000,
+    "vehicle": "motorbike"
+  }
+]

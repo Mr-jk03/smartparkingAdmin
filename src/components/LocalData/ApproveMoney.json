@@ -1,0 +1,17 @@
+[
+  { "id": 1, "ma_giao_dich": "GD001", "so_tien": 100000, "date": "01/11/2024" },
+  { "id": 2, "ma_giao_dich": "GD002", "so_tien": 200000, "date": "02/11/2024" },
+  { "id": 3, "ma_giao_dich": "GD003", "so_tien": 150000, "date": "03/11/2024" },
+  { "id": 4, "ma_giao_dich": "GD004", "so_tien": 300000, "date": "04/11/2024" },
+  { "id": 5, "ma_giao_dich": "GD005", "so_tien": 250000, "date": "05/11/2024" },
+  { "id": 6, "ma_giao_dich": "GD006", "so_tien": 350000, "date": "06/11/2024" },
+  { "id": 7, "ma_giao_dich": "GD007", "so_tien": 400000, "date": "07/11/2024" },
+  { "id": 8, "ma_giao_dich": "GD008", "so_tien": 450000, "date": "08/11/2024" },
+  { "id": 9, "ma_giao_dich": "GD009", "so_tien": 500000, "date": "09/11/2024" },
+  { "id": 10, "ma_giao_dich": "GD010", "so_tien": 550000, "date": "10/11/2024" },
+  { "id": 11, "ma_giao_dich": "GD011", "so_tien": 600000, "date": "11/11/2024" },
+  { "id": 12, "ma_giao_dich": "GD012", "so_tien": 650000, "date": "12/11/2024" },
+  { "id": 13, "ma_giao_dich": "GD013", "so_tien": 700000, "date": "13/11/2024" },
+  { "id": 14, "ma_giao_dich": "GD014", "so_tien": 750000, "date": "14/11/2024" },
+  { "id": 15, "ma_giao_dich": "GD015", "so_tien": 800000, "date": "15/11/2024" }
+]

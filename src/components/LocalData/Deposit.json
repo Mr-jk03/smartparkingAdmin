@@ -1,0 +1,72 @@
+[
+    {
+        "id_khach_hang": "KH001",
+        "so_tien": 500000,
+        "tao_luc": "21/11/2024 08:30",
+        "thuc_hien_boi": "Nguyễn Văn A",
+        "trang_thai": "Đã duyệt"
+    },
+    {
+        "id_khach_hang": "KH002",
+        "so_tien": 750000,
+        "tao_luc": "20/11/2024 14:20",
+        "thuc_hien_boi": "Trần Thị B",
+        "trang_thai": "Chờ duyệt"
+    },
+    {
+        "id_khach_hang": "KH003",
+        "so_tien": 1000000,
+        "tao_luc": "19/11/2024 10:15",
+        "thuc_hien_boi": "Lê Văn C",
+        "trang_thai": "Đã huỷ"
+    },
+    {
+        "id_khach_hang": "KH004",
+        "so_tien": 250000,
+        "tao_luc": "18/11/2024 09:45",
+        "thuc_hien_boi": "Phạm Thị D",
+        "trang_thai": "Đã duyệt"
+    },
+    {
+        "id_khach_hang": "KH005",
+        "so_tien": 600000,
+        "tao_luc": "17/11/2024 15:30",
+        "thuc_hien_boi": "Hoàng Văn E",
+        "trang_thai": "Chờ duyệt"
+    },
+    {
+        "id_khach_hang": "KH006",
+        "so_tien": 900000,
+        "tao_luc": "16/11/2024 13:15",
+        "thuc_hien_boi": "Nguyễn Thị F",
+        "trang_thai": "Đã duyệt"
+    },
+    {
+        "id_khach_hang": "KH007",
+        "so_tien": 450000,
+        "tao_luc": "15/11/2024 10:00",
+        "thuc_hien_boi": "Lê Văn G",
+        "trang_thai": "Chờ duyệt"
+    },
+    {
+        "id_khach_hang": "KH008",
+        "so_tien": 700000,
+        "tao_luc": "14/11/2024 08:45",
+        "thuc_hien_boi": "Phạm Thị H",
+        "trang_thai": "Đã duyệt"
+    },
+    {
+        "id_khach_hang": "KH009",
+        "so_tien": 300000,
+        "tao_luc": "13/11/2024 14:10",
+        "thuc_hien_boi": "Hoàng Văn I",
+        "trang_thai": "Đã huỷ"
+    },
+    {
+        "id_khach_hang": "KH010",
+        "so_tien": 800000,
+        "tao_luc": "12/11/2024 11:00",
+        "thuc_hien_boi": "Nguyễn Thị J",
+        "trang_thai": "Đã duyệt"
+    }
+]

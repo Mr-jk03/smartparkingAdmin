@@ -1,0 +1,152 @@
+[
+  {
+    "idcustomer": "KH001",
+    "email": "john.doe@gmail.com",
+    "name": "John Doe",
+    "phone": 987654321,
+    "consumption": 500000,
+    "ticketbought": 10,
+    "nowbalance": 100000,
+    "status": "Active"
+  },
+  {
+    "idcustomer": "KH002",
+    "email": "jane.smith@yahoo.com",
+    "name": "Jane Smith",
+    "phone": 912345678,
+    "consumption": 700000,
+    "ticketbought": 15,
+    "nowbalance": 200000,
+    "status": "Inactive"
+  },
+  {
+    "idcustomer": "KH003",
+    "email": "mike.jones@hotmail.com",
+    "name": "Mike Jones",
+    "phone": 985216347,
+    "consumption": 300000,
+    "ticketbought": 5,
+    "nowbalance": 50000,
+    "status": "Active"
+  },
+  {
+    "idcustomer": "KH004",
+    "email": "susan.wilson@outlook.com",
+    "name": "Susan Wilson",
+    "phone": 998765432,
+    "consumption": 800000,
+    "ticketbought": 20,
+    "nowbalance": 300000,
+    "status": "Active"
+  },
+  {
+    "idcustomer": "KH005",
+    "email": "daniel.taylor@gmail.com",
+    "name": "Daniel Taylor",
+    "phone": 931245678,
+    "consumption": 600000,
+    "ticketbought": 12,
+    "nowbalance": 150000,
+    "status": "Inactive"
+  },
+  {
+    "idcustomer": "KH006",
+    "email": "emma.miller@gmail.com",
+    "name": "Emma Miller",
+    "phone": 972345678,
+    "consumption": 400000,
+    "ticketbought": 8,
+    "nowbalance": 100000,
+    "status": "Active"
+  },
+  {
+    "idcustomer": "KH007",
+    "email": "oliver.davis@gmail.com",
+    "name": "Oliver Davis",
+    "phone": 981234567,
+    "consumption": 1000000,
+    "ticketbought": 25,
+    "nowbalance": 500000,
+    "status": "Active"
+  },
+  {
+    "idcustomer": "KH008",
+    "email": "ava.brown@gmail.com",
+    "name": "Ava Brown",
+    "phone": 987654123,
+    "consumption": 550000,
+    "ticketbought": 13,
+    "nowbalance": 250000,
+    "status": "Inactive"
+  },
+  {
+    "idcustomer": "KH009",
+    "email": "liam.martin@gmail.com",
+    "name": "Liam Martin",
+    "phone": 921234567,
+    "consumption": 750000,
+    "ticketbought": 18,
+    "nowbalance": 350000,
+    "status": "Active"
+  },
+  {
+    "idcustomer": "KH010",
+    "email": "sophia.thomas@gmail.com",
+    "name": "Sophia Thomas",
+    "phone": 982345678,
+    "consumption": 900000,
+    "ticketbought": 22,
+    "nowbalance": 400000,
+    "status": "Active"
+  },
+  {
+    "idcustomer": "KH011",
+    "email": "lucas.jackson@gmail.com",
+    "name": "Lucas Jackson",
+    "phone": 991234567,
+    "consumption": 500000,
+    "ticketbought": 10,
+    "nowbalance": 100000,
+    "status": "Inactive"
+  },
+  {
+    "idcustomer": "KH012",
+    "email": "mia.anderson@gmail.com",
+    "name": "Mia Anderson",
+    "phone": 973456789,
+    "consumption": 800000,
+    "ticketbought": 20,
+    "nowbalance": 300000,
+    "status": "Active"
+  },
+  {
+    "idcustomer": "KH013",
+    "email": "noah.moore@gmail.com",
+    "name": "Noah Moore",
+    "phone": 951234567,
+    "consumption": 400000,
+    "ticketbought": 8,
+    "nowbalance": 100000,
+    "status": "Inactive"
+  },
+  {
+    "idcustomer": "KH014",
+    "email": "amelia.taylor@gmail.com",
+    "name": "Amelia Taylor",
+    "phone": 923456789,
+    "consumption": 600000,
+    "ticketbought": 12,
+    "nowbalance": 200000,
+    "status": "Active"
+  },
+  {
+    "idcustomer": "KH015",
+    "email": "ethan.harris@gmail.com",
+    "name": "Ethan Harris",
+    "phone": 974567891,
+    "consumption": 1000000,
+    "ticketbought": 25,
+    "nowbalance": 500000,
+    "status": "Active"
+  }
+]

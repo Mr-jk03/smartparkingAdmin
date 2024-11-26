@@ -1,0 +1,97 @@
+
+.wrapper-revenue{
+    height: auto;
+    width: 100%;
+    padding: 5px;
+}
+
+.title-revenue{
+    height: auto;
+    width: 100%;
+    padding: 2px;
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    font-size: 25px;
+}
+.main-filter{
+    height: 45px;
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.main-filter span{
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.main-filter input{
+    outline: none;
+    height: 35px;
+    width: 220px;
+    padding: 2px 10px;
+    border: none;
+    background-color: #d8d6d6;
+    border-radius: 5px;
+    box-shadow: 0px 3px 4px var(--boxshadow);
+}
+.main-filter input[type="number"]::-webkit-outer-spin-button,
+                  [type="number"]::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+}
+
+.main-filter input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+
+.main-filter input::placeholder{
+    font-size: 13px;
+    font-style: italic;
+}
+
+.total-revenue{
+    height: auto;
+    width: 100%;
+    padding: 2px;
+    display: inline-block;
+    font-weight: bold;
+    text-align: start;
+    font-size: 18px;
+}
+
+.chart-revenue{
+    height: 500px;
+    width: 100%;
+}
+
+.thead-revenue{
+    height: 45px;
+    width: 100%;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    padding: 2px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 3px 4px var(--boxshadow);
+}
+
+.tbody-revenue{
+    height: 336px;
+    width: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding: 2px;
+    margin: 3px 0px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 3px 4px var(--boxshadow);
+}
+.tbody-revenue::-webkit-scrollbar{
+    display: none;
+}

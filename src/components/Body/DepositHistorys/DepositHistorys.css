@@ -1,0 +1,80 @@
+
+.wrapper-deposit{
+    height: auto;
+    width: 100%;
+    padding: 5px;
+}
+
+.title-deposit{
+    height: auto;
+    width: 100%;
+    padding: 2px;
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    font-size: 25px;
+}
+.search-deposit{
+    height: 45px;
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.search-deposit span{
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.ip-date{
+    outline: none;
+    height: 35px;
+    width: 220px;
+    padding: 3px;
+    border: none;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 3px 4px var(--boxshadow);
+}
+
+.ip-date::placeholder{
+    font-size: 12px;
+    color: #a1a0a0;
+    font-style: italic;
+}
+
+.t-head-deposit{
+    height: 45px;
+    width: 100%;
+    padding: 2px;
+    background-color: #D9D9D9;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px var(--boxshadow);
+    font-weight: bold;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.style-tb{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.t-body-deposit{
+    height: 444px;
+    width: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding: 2px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px var(--boxshadow);
+    margin: 5px;
+}
+
+.t-body-deposit::-webkit-scrollbar{
+    display: none;
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "TK001",
+    "name": "Vé tháng xe máy",
+    "price": 50000,
+    "status": "Công khai",
+    "quantity": "30 lượt",
+    "unit": "Tháng",
+    "vehicle": "Motorbike",
+    "createat": "08:30 / 01/11/2024"
+  },
+  {
+    "id": "TK002",
+    "name": "Vé ngày ô tô",
+    "price": 100000,
+    "status": "Ẩn",
+    "quantity": "24 giờ",
+    "unit": "Ngày",
+    "vehicle": "Car",
+    "createat": "09:00 / 02/11/2024"
+  },
+  {
+    "id": "TK003",
+    "name": "Vé tuần xe máy",
+    "price": 150000,
+    "status": "Công khai",
+    "quantity": "7 ngày",
+    "unit": "Tuần",
+    "vehicle": "Motorbike",
+    "createat": "10:15 / 03/11/2024"
+  },
+  {
+    "id": "TK004",
+    "name": "Vé năm ô tô",
+    "price": 1200000,
+    "status": "Công khai",
+    "quantity": "365 ngày",
+    "unit": "Năm",
+    "vehicle": "Car",
+    "createat": "14:45 / 04/11/2024"
+  }
+]
