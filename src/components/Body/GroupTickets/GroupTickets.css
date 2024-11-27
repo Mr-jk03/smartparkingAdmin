@@ -1,0 +1,76 @@
+
+.warraper-groupTicket{
+    height: auto;
+    width: 100%;
+    padding: 4px;
+}
+
+.title-groupticket{
+    height: auto;
+    width: 100%;
+    padding: 2px 5px;
+    display: inline-block;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.box-select-day{
+    height: 45px;
+    width: 100%;
+    padding: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.box-select-day span{
+    font-size: 13px;
+    font-weight: bold;
+}
+.box-select-day  input{
+    height: 35px;
+    width: 180px;
+    border: none;
+    outline: none;
+    padding: 2px 10px;
+    border-radius: 5px;
+    box-shadow: 0px 3px 4px var(--boxshadow);
+}
+
+.box-tk-group{
+    height: 282px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-area{
+    height: 400px;
+    width: 100%;
+    border-radius: 7px;
+    padding: 5px;
+    background-color: #fff;
+    box-shadow: 0px 3px 4px var(--boxshadow);
+    outline: none;
+}
+
+.btn-buyticket{
+    height: 30px;
+    width: auto;
+    padding: 2px 15px;
+    border: none;
+    background-color: #1078f7;
+    outline: none;
+    border-radius: 5px;
+    box-shadow: 0px 3px 4px var(--boxshadow);
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    transition: 0.2s ease-in-out;
+}
+
+.btn-buyticket:hover{
+    background-color: #0a59ba;
+}

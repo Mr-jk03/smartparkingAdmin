@@ -13,6 +13,10 @@ import Revenue from './components/Body/Revenue/Revenue';
 import TkTicketSales from './components/Body/TkTicketSales/TkTicketSales';
 import SettingLocation from './components/Body/SettingLocation/SettingLocation';
 import Login from './components/Body/Login/Login';
+import GroupTickets from './components/Body/GroupTickets/GroupTickets'
+import DetailListTickets from './components/Body/DetailListTickets/DetailListTickets'
+import DetailTicketSold from './components/Body/DetailTicketSold/DetailTicketSold';
+import DetailListAcount from './components/Body/DetailListAcount/DetailListAcount'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Trạng thái đăng nhập
@@ -37,6 +41,10 @@ function App() {
                 <Route path="/revenue" element={<Revenue />} />
                 <Route path="/ticketsale" element={<TkTicketSales />} />
                 <Route path="/settinglocation" element={<SettingLocation />} />
+                <Route path="/buygrouptickets" element={<GroupTickets />} />
+                <Route path="/detaillistTicket/:id" element={<DetailListTickets />}/>
+                <Route path="/detailticketsold/:id" element={<DetailTicketSold />}/>
+                <Route path="/detaillistaccount/:idcustomer" element={<DetailListAcount />}/>
               </Routes>
             </div>
           </div>

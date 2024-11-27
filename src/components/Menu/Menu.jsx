@@ -42,6 +42,9 @@ const Menu = () => {
                     <li className='li-item'>
                         <Link to={'/ticketsold'}>Vé đã bán</Link>
                     </li>
+                    <li className='li-item'>
+                        <Link to={'/buygrouptickets'}>Mua vé nhóm</Link>
+                    </li>
                 </ul>
         </div>
         <div className="ql-item">

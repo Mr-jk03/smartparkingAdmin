@@ -1,0 +1,52 @@
+
+
+.wrapper-dtlistacount{
+    height: auto;
+    width: 100%;
+    padding: 4px;
+}
+
+.title-dtlistaccount{
+    height: auto;
+    width: 100%;
+    padding: 2px 5px;
+    display: inline-block;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.main-dtlistaccount{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box-dtlistaccount{
+    height: auto;
+    width: 780px;
+    padding: 5px;
+    background-color: #B3DCF6;
+    border-radius: 5px;
+    box-shadow: 0px 3px 4px #66a1c6;
+    padding: 15px;
+}
+
+.item-dtlistacount{
+    height: 45px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 0px 20px;
+}
+.item-dtlistacount input{
+    height: 35px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 2px 5px;
+}

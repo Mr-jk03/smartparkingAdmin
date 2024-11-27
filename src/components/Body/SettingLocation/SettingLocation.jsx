@@ -47,7 +47,7 @@ const SettingLocation = () => {
                 </div>
                 <div className="col-xl-12 col-lg-12 col-md-12">
                     <div className="location-car">
-                        <button className='btn-submit-lct'>Thêm</button>
+                        <button className='btn-submit-lct'>Lưu</button>
                     </div>
                 </div>
             </div>

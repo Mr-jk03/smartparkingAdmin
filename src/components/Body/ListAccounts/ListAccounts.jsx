@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { FaEye } from "react-icons/fa";
 import './ListAccounts.css';
 import customers from '../../LocalData/ListAccount.json';
-import Swal from 'sweetalert2';
 
 const ListAccounts = () => {
   const [searchInput, setSearchInput] = useState('');
@@ -21,25 +20,6 @@ const ListAccounts = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const handleShowDetailCtm = (idcustomer) =>{
-    const findCustomer = customers.find((customer) => customer.idcustomer === idcustomer);
-    if(findCustomer){
-      Swal.fire({
-        title: `Thông tin khách hàng <br/>${findCustomer.name}`,
-        html:`
-          <p><Strong>ID khách hàng: </Strong> ${findCustomer.idcustomer}</p>
-          <p><Strong>Tên khách hàng: </Strong> ${findCustomer.name}</p>
-          <p><Strong>Email khách hàng: </Strong> ${findCustomer.email}</p>
-          <p><Strong>SĐT khách hàng: </Strong> ${findCustomer.phone}</p>
-          <p><Strong>Tiêu dùng trong tháng: </Strong> ${findCustomer.consumption.toLocaleString('vi-VN')} <sup>đ</sup></p>
-          <p><Strong>Vé đã mua: </Strong> ${findCustomer.ticketbought} vé</p>
-          <p><Strong>Số dư hiện tại: </Strong> ${findCustomer.nowbalance.toLocaleString('vi-VN')} <sup>đ</sup></p>
-          <p><Strong>Trạng thái: </Strong> ${findCustomer.status}</p>
-          `
-      })
-    }
-  }
-
 
 
   return (
@@ -52,7 +32,7 @@ const ListAccounts = () => {
               <span>Tìm khách hàng</span>
               <input
                 type="text"
-                placeholder='Gmail/Tên khách hàng/SĐT'
+                placeholder='Tên khách hàng'
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
               />
@@ -112,11 +92,11 @@ const ListAccounts = () => {
                     <div className="col-xl-2 col-lg-2 col-md-2">{customer.phone}</div>
                     <div className="col-xl-1 col-lg-1 col-md-1">{customer.status}</div>
                     <div className="col-xl-1 col-lg-1 col-md-1 d-flex justify-content-center align-items-center">
-                      <button className='btn-active-item-list'
-                        onClick={() =>handleShowDetailCtm(customer.idcustomer)}
-                      >
-                          <FaEye />
-                      </button>
+                      <Link to={`/detaillistaccount/${customer.idcustomer}`}>
+                        <button className='btn-active-item-list'>
+                            <FaEye />
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 ))}

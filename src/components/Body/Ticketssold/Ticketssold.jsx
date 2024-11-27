@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Ticketssold.css';
 import ticketsoldData from '../../LocalData/TicketSold.json';
-import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom'
 
 const Ticketssold = () => {
   const [timeStart, setTimeStart] = useState('');
@@ -24,26 +24,6 @@ const Ticketssold = () => {
     setFilteredTickets(filtered);
   };
 
-  const handleShowCustomer = (id) => {
-    const findTicketSold = ticketsoldData.find((item) => item.id === id);
-    if (findTicketSold) {
-      Swal.fire({
-        title: 'Chi tiết vé đã bán',
-        html: `
-          <p><strong>Mã vé: </strong>${findTicketSold.id}</p>
-          <p><strong>Tên vé: </strong>${findTicketSold.name}</p>
-          <p><strong>Loại vé: </strong>${findTicketSold.unit}</p>
-          <p><strong>Ngày bắt đầu: </strong> 00:00 10/1/2024 </p>
-          <p><strong>Ngày kết thúc: </strong> 00:00 10/1/2024 </p>
-          <p><strong>Lần cuối sử dụng: </strong>${findTicketSold.lastused}</p>
-          <p><strong>ID khách hàng: </strong> kh001 </p>
-          <p><strong>Biển số: </strong>${findTicketSold.plate}</p>
-          <p><strong>Loại phương tiện: </strong>${findTicketSold.vehicle}</p>
-        `,
-        icon: 'info',
-      });
-    }
-  };
 
   return (
     <div className="wapper-ticket-sold">
@@ -101,28 +81,6 @@ const Ticketssold = () => {
               </div>
 
               <div className="box-filter-menu">
-                <span className="sp-td">Email / ID khách hàng</span>
-                <div className="input-time">
-                  <input
-                    type="text"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="box-filter-menu">
-                <span className="sp-td">Nội dung biển số</span>
-                <div className="input-time">
-                  <input
-                    type="text"
-                    value={plate}
-                    onChange={(e) => setPlate(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="box-filter-menu">
                 <span className="sp-td">Phương tiện</span>
                 <div className="input-time">
                   <select
@@ -145,14 +103,17 @@ const Ticketssold = () => {
                 <div className="container">
                   <div className="row">
                     <div className="col-xl-1 col-lg-1 col-md-1 text-center">STT</div>
-                    <div className="col-xl-2 col-lg-2 col-md-2 text-center">Tên vé</div>
-                    <div className="col-xl-2 col-lg-2 col-md-2 text-center">
-                      Số lượng đã bán
+                    <div className="col-xl-1 col-lg-1 col-md-1 text-center">Tên vé</div>
+                    <div className="col-xl-3 col-lg-3 col-md-3 text-center">
+                      Thời gian bắt đầu
                     </div>
-                    <div className="col-xl-5 col-lg-5 col-md-5 text-center">
+                    <div className="col-xl-3 col-lg-3 col-md-3 text-center">
+                      Thời gian kết thúc
+                    </div>
+                    <div className="col-xl-3 col-lg-3 col-md-3 text-center">
                       Lần cuối sử dụng
                     </div>
-                    <div className="col-xl-2 col-lg-2 col-md-2 text-center">Hành động</div>
+                    <div className="col-xl-1 col-lg-1 col-md-1 text-center">Hành động</div>
                   </div>
                 </div>
               </div>
@@ -162,16 +123,17 @@ const Ticketssold = () => {
                   {filteredTickets.map((item, index) => (
                     <div className="row mt-2" key={index}>
                       <div className="col-xl-1 col-lg-1 col-md-1 text-center">{index + 1}</div>
-                      <div className="col-xl-2 col-lg-2 col-md-2 text-center">{item.name}</div>
-                      <div className="col-xl-2 col-lg-2 col-md-2 text-center">{item.quantity}</div>
-                      <div className="col-xl-5 col-lg-5 col-md-5 text-center">{item.lastused}</div>
-                      <div className="col-xl-2 col-lg-2 col-md-2 text-center">
-                        <button
-                          className="detail-tksold"
-                          onClick={() => handleShowCustomer(item.id)}
-                        >
-                          Xem chi tiết
-                        </button>
+                      <div className="col-xl-1 col-lg-1 col-md-1 text-center">{item.name}</div>
+                      <div className="col-xl-3 col-lg-3 col-md-3 text-center">{item.starttime}</div>
+                      <div className="col-xl-3 col-lg-3 col-md-3 text-center">{item.endtime}</div>
+                      <div className="col-xl-3 col-lg-3 col-md-3 text-center">{item.lastused}</div>
+                      <div className="col-xl-1 col-lg-1 col-md-1 text-center">
+                        <Link to={`/detailticketsold/${item.id}`}>
+                            <button
+                            className="detail-tksold">
+                                Xem chi tiết
+                            </button>
+                        </Link>
                       </div>
                     </div>
                   ))}
