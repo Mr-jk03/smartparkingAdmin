@@ -33,9 +33,10 @@ const Ticketssold = () => {
           <p><strong>Mã vé: </strong>${findTicketSold.id}</p>
           <p><strong>Tên vé: </strong>${findTicketSold.name}</p>
           <p><strong>Loại vé: </strong>${findTicketSold.unit}</p>
-          <p><strong>Số lượng đã bán được: </strong>${findTicketSold.quantity} vé</p>
+          <p><strong>Ngày bắt đầu: </strong> 00:00 10/1/2024 </p>
+          <p><strong>Ngày kết thúc: </strong> 00:00 10/1/2024 </p>
           <p><strong>Lần cuối sử dụng: </strong>${findTicketSold.lastused}</p>
-          <p><strong>Email khách hàng: </strong>${findTicketSold.email}</p>
+          <p><strong>ID khách hàng: </strong> kh001 </p>
           <p><strong>Biển số: </strong>${findTicketSold.plate}</p>
           <p><strong>Loại phương tiện: </strong>${findTicketSold.vehicle}</p>
         `,
@@ -84,7 +85,7 @@ const Ticketssold = () => {
                 <div className="input-time">
                   <span>Từ</span>
                   <input
-                    type="text"
+                    type="date"
                     value={timeStart}
                     onChange={(e) => setTimeStart(e.target.value)}
                   />
@@ -92,7 +93,7 @@ const Ticketssold = () => {
                 <div className="input-time">
                   <span>Tới</span>
                   <input
-                    type="text"
+                    type="date"
                     value={timeEnd}
                     onChange={(e) => setTimeEnd(e.target.value)}
                   />

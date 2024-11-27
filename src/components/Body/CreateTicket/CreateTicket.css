@@ -45,3 +45,13 @@
     font-weight: bold;
     text-transform: uppercase;
 }
+
+.select-stt{
+    height: 30px;
+    width: 100%;
+    border:none;
+    outline: none;
+    border-radius: 5px;
+    padding: 4px 8px;
+    box-shadow: 0px 3px 4px var(--boxshadow);
+}
