@@ -4,6 +4,7 @@ import Logo from '../../Images/logo.png';
 import { FaUserCircle, FaLock } from "react-icons/fa";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { endpoint } from '../../../config/apiConfig';
 
 const Login = ({ onLogin }) => { // Nhận hàm từ App qua props
   const [username, setUsername] = useState('');
@@ -12,10 +13,36 @@ const Login = ({ onLogin }) => { // Nhận hàm từ App qua props
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (username === 'admin' && password === '123') {
-      onLogin(true); // Chuyển trạng thái đăng nhập thành "đã đăng nhập"
-    } else {
-      toast.error('Sai tài khoản hoặc mật khẩu');
+    if (username === '' && password === '') {
+      toast.error('Vui lòng điền đầy đủ thông tin tài khoản!', { position: 'top-right' });
+    }else if (username === '') {
+      toast.error('Vui lòng điền tên đăng nhập!', { position: 'top-right' }); 
+    }else {
+      const body ={
+        email: username,
+        password: password
+      }
+      fetch(endpoint.login.url,{
+        method:endpoint.login.method,
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(body)
+      })
+      .then(res => res.json())
+      .then(data =>{
+        if(data.code === 1000){
+          localStorage.setItem('token', data.result.token);
+          onLogin(true);
+          toast.success('Đăng nhập thành công!', { position: 'top-right' });
+        }else {
+          toast.error(data.message || 'Đăng nhập thất bại!', { position: 'top-right' });
+        }
+      })
+      .catch(error => {
+        console.error("Error during login:", error);
+        toast.error('Đã xảy ra lỗi, vui lòng thử lại!', { position: 'top-right' });
+      });
     }
   };
 

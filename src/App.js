@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Menu from './components/Menu/Menu';
 import Body from './components/Body/Body';
@@ -16,19 +16,31 @@ import Login from './components/Body/Login/Login';
 import GroupTickets from './components/Body/GroupTickets/GroupTickets'
 import DetailListTickets from './components/Body/DetailListTickets/DetailListTickets'
 import DetailTicketSold from './components/Body/DetailTicketSold/DetailTicketSold';
-import DetailListAcount from './components/Body/DetailListAcount/DetailListAcount'
+import DetailListAcount from './components/Body/DetailListAcount/DetailListAcount';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Trạng thái đăng nhập
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token); 
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); 
+    setIsLoggedIn(false); 
+    navigate('/login'); 
+  };
 
   return (
     <>
       {isLoggedIn ? (
         <div>
-          <Header />
+          <Header/> 
           <div className='row'>
             <div className='col-xl-2 col-lg-2 col-md-2'>
-              <Menu />
+              <Menu onLogout={handleLogout}/>
             </div>
             <div className='col-xl-10 col-lg-10 col-md-10'>
               <Routes>
@@ -42,15 +54,15 @@ function App() {
                 <Route path="/ticketsale" element={<TkTicketSales />} />
                 <Route path="/settinglocation" element={<SettingLocation />} />
                 <Route path="/buygrouptickets" element={<GroupTickets />} />
-                <Route path="/detaillistTicket/:id" element={<DetailListTickets />}/>
-                <Route path="/detailticketsold/:id" element={<DetailTicketSold />}/>
-                <Route path="/detaillistaccount/:idcustomer" element={<DetailListAcount />}/>
+                <Route path="/detaillistTicket/:id" element={<DetailListTickets />} />
+                <Route path="/detailticketsold/:id" element={<DetailTicketSold />} />
+                <Route path="/detaillistaccount/:idcustomer" element={<DetailListAcount />} />
               </Routes>
             </div>
           </div>
         </div>
       ) : (
-        <Login onLogin={setIsLoggedIn} /> // Truyền hàm setIsLoggedIn
+        <Login onLogin={() => setIsLoggedIn(true)} /> 
       )}
     </>
   );

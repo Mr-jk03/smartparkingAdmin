@@ -1,12 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEye } from "react-icons/fa";
 import './ListAccounts.css';
-import customers from '../../LocalData/ListAccount.json';
+import { endpoint } from '../../../config/apiConfig'; // Import config API
 
 const ListAccounts = () => {
+  const [customers, setCustomers] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    fetch(endpoint.listAccount.url, {
+      method: endpoint.listAccount.method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.code === 1000) {
+          setCustomers(data.result.items || []);
+        } else {
+          setError(`Lỗi tải dữ liệu: ${data.message}`);
+        }
+      })
+      .catch((err) => {
+        setError(`Lỗi kết nối: ${err.message}`);
+      });
+  }, []);
 
   const filterInput = customers.filter(customer => {
     const matchesSearch =
@@ -20,7 +45,9 @@ const ListAccounts = () => {
     return matchesSearch && matchesStatus;
   });
 
-
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className='wrapper-listAccount'>
@@ -94,7 +121,7 @@ const ListAccounts = () => {
                     <div className="col-xl-1 col-lg-1 col-md-1 d-flex justify-content-center align-items-center">
                       <Link to={`/detaillistaccount/${customer.idcustomer}`}>
                         <button className='btn-active-item-list'>
-                            <FaEye />
+                          <FaEye />
                         </button>
                       </Link>
                     </div>
@@ -109,4 +136,4 @@ const ListAccounts = () => {
   );
 };
 
-export default ListAccounts;
+export default ListAccounts

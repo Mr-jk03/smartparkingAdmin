@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import './TkTicketSales.css'
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import dataticksales from '../../LocalData/DataTicketSales.json'
+import { endpoint } from '../../../config/apiConfig';
 
 const TkTicketSales = () => {
 
@@ -11,18 +12,30 @@ const TkTicketSales = () => {
     const [monthRvn, setMonthRvn] = useState(currentMonth); 
     const [yearRvn, setYearRvn] = useState(currentYear); 
     const [filteredData, setFilteredData] = useState([]);
-
     const [totalMonth, setTotalMonth] = useState(0);
 
     useEffect(() => {
-        const filtered = dataticksales.filter(item => {
-            const [day, month, year] = item.date.split('/').map(Number);
-            return month === monthRvn && year === yearRvn;
+        const token = localStorage.getItem('token');
+        fetch(`${endpoint.tk_ticket_sale.url.split('?')[0]}?date=${monthRvn}/${yearRvn}`,{
+            method: endpoint.tk_ticket_sale.method,
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+        .then(res => res.json())
+        .then(data =>{
+            if(data.code === 1000){
+                setFilteredData(data.result);
+                const totalRevenue = data.result.reduce((total, item) => total + item.motorbike + item.car, 0);
+                setTotalMonth(totalRevenue);
+            }else {
+                console.error('Lỗi khi lấy dữ liệu');
+            }
+        })
+         .catch(error => {
+            console.log('Lỗi kết nối:', error);
         });
-        setFilteredData(filtered);
-
-        const totalRevenue = filtered.reduce((total, item) => total + item.motorbike + item.car, 0);
-        setTotalMonth(totalRevenue);
     }, [monthRvn, yearRvn]);
 
   return (

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Revenue.css';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import allData from '../../LocalData/DataRevenue.json';
-import detailRevenue from '../../LocalData/DetailRevenue.json'
+// import allData from '../../LocalData/DataRevenue.json';
+import { endpoint } from '../../../config/apiConfig';
+
 
 const Revenue = () => {
 
@@ -15,14 +16,27 @@ const Revenue = () => {
     const [totalMonth, setTotalMonth] = useState(0);
 
     useEffect(() => {
-        const filtered = allData.filter(item => {
-            const [day, month, year] = item.date.split('/').map(Number);
-            return month === monthRvn && year === yearRvn;
+        const token = localStorage.getItem('token');
+        fetch(`${endpoint.revenue.url.split('?')[0]}?date=${monthRvn}/${yearRvn}`,{
+            method: endpoint.revenue.method,
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.code === 1000) {
+                setFilteredData(data.result);
+                const totalRevenue = data.result.reduce((total, item) => total + item.motorbike + item.car, 0);
+                setTotalMonth(totalRevenue);
+            } else {
+                console.error('Lỗi khi lấy dữ liệu');
+            }
+        })
+        .catch(error => {
+            console.log('Lỗi kết nối:', error);
         });
-        setFilteredData(filtered);
-
-        const totalRevenue = filtered.reduce((total, item) => total + item.motorbike + item.car, 0);
-        setTotalMonth(totalRevenue);
     }, [monthRvn, yearRvn]);
 
     return (
@@ -89,7 +103,7 @@ const Revenue = () => {
 
                         <div className="tbody-revenue">
                             <div className="container">
-                                {detailRevenue.map((item, index) =>
+                                {filteredData.map((item, index) =>
                                 <div className="row" key={index}>
                                     <div className="col-xl-2 col-lg-2 col-md-2 text-center">{index + 1}</div>
                                     <div className="col-xl-4 col-lg-4 col-md-4 text-center">{item.datetime}</div>

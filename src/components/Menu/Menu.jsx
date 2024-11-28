@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './Menu.css'
 import { Link, useNavigate } from 'react-router-dom'
 
-const Menu = () => {
+const Menu = ({onLogout }) => {
 
     const [qlvInvisible, setQlvInvisible] = useState(false);
     const [qlkhInvisible, setQlkhInvisible] = useState(false);
@@ -24,9 +24,7 @@ const Menu = () => {
         setQltkInvisible(!qltkInvisible);
     }
 
-    const handleLogout = () => {  
-        navigate('/login');
-    };
+    
 
   return (
     <div className='wrapper-menu'>
@@ -87,7 +85,7 @@ const Menu = () => {
         </div>
         <div className="ql-item mt-3">
                 <button className='btn-ql-item'
-                    onClick={handleLogout}
+                    onClick={onLogout}
                 >
                     Đăng xuất
                 </button>
