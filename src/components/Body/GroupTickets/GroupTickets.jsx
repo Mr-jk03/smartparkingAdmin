@@ -14,25 +14,25 @@ const GroupTickets = () => {
   // Lấy dữ liệu vé từ API khi component được render
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch(endpoint.lisTicket.url, {  
+    fetch(endpoint.lisTicket.url, {
       method: endpoint.lisTicket.method,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
     })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.code === 1000) {
-        setTickets(data.result);
-      } else {
-        toast.error('Lỗi khi lấy dữ liệu vé.');
-      }
-    })
-    .catch((err) => {
-      console.error('Connection error:', err);
-      toast.error('Lỗi kết nối');
-    });
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.code === 1000) {
+          setTickets(data.result);
+        } else {
+          toast.error('Lỗi khi lấy dữ liệu vé.');
+        }
+      })
+      .catch((err) => {
+        console.error('Connection error:', err);
+        toast.error('Lỗi kết nối');
+      });
   }, []);
 
   // Hàm chọn hoặc bỏ chọn vé
@@ -78,21 +78,21 @@ const GroupTickets = () => {
     const emails = customerList.trim().split('\n').filter(line => line.trim() !== '').map(customer => customer.trim());
 
     const formatDate = (date) => {
-      const d = new Date(date);  
-      const day = String(d.getDate()).padStart(2, '0');  
-      const month = String(d.getMonth() + 1).padStart(2, '0');  
-      const year = d.getFullYear();  
-      return `${day}/${month}/${year}`; 
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      return `${day}/${month}/${year}`;
     };
 
     // Dữ liệu gửi đi
     const payload = {
       end: formatDate(dayEnd),
-      start: formatDate(dayStart),   
-      categoryId: selectedTicket.id,  
-      emails: emails, 
+      start: formatDate(dayStart),
+      categoryId: selectedTicket.id,
+      emails: emails,
     };
-    
+
 
     // Gửi yêu cầu mua vé
     const token = localStorage.getItem('token');
@@ -104,21 +104,21 @@ const GroupTickets = () => {
       },
       body: JSON.stringify(payload),
     })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.code === 1000) {
-        toast.success(`Đã đặt vé thành công cho ${countCustomers()} khách hàng.`);
-        setCustomerList('');
-        setDayStart('');
-        setDayEnd('');
-      } else {
-        toast.error('Lỗi khi mua vé.');
-      }
-    })
-    .catch((err) => {
-      console.error('Error:', err);
-      toast.error('Lỗi kết nối');
-    });
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.code === 1000) {
+          toast.success(`Đã đặt vé thành công cho ${countCustomers()} khách hàng.`);
+          setCustomerList('');
+          setDayStart('');
+          setDayEnd('');
+        } else {
+          toast.error('Lỗi khi mua vé.');
+        }
+      })
+      .catch((err) => {
+        console.error('Error:', err);
+        toast.error('Lỗi kết nối');
+      });
   };
 
   return (

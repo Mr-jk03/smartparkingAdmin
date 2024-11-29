@@ -15,7 +15,7 @@ const ListAccounts = () => {
   const [concat, setConcat] = useState(false)
 
 
-  const param = () =>{
+  const param = () => {
     return `?name=${encodeURIComponent(searchInput)}&status=${statusFilter}&page=${page}`
   }
 
@@ -40,9 +40,12 @@ const ListAccounts = () => {
               setConcat(true);
             }
           else {
+            if (page === 1) {
+              setCustomers([])
+            }
             setMaxPage(true)
           }
-          
+
         } else {
           toast.error(data.message, {
             position: "top-right"
@@ -54,13 +57,13 @@ const ListAccounts = () => {
       });
   }, [searchInput, statusFilter, page]);
 
-  const onChangeRadio = (e) =>{
+  const onChangeRadio = (e) => {
     setMaxPage(false)
     setPage(1)
-    setStatusFilter(e.target.value)
     setConcat(false)
+    setStatusFilter(e.target.value)
   }
-  const changInputSearch =(e) =>{
+  const changInputSearch = (e) => {
     setMaxPage(false)
     setPage(1)
     setSearchInput(e.target.value)

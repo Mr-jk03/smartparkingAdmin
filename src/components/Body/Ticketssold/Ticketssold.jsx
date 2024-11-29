@@ -8,6 +8,8 @@ const Ticketssold = () => {
   const [timeStart, setTimeStart] = useState('');
   const [timeEnd, setTimeEnd] = useState('');
   const [vehicle, setVehicle] = useState('car');
+  const [maxPage, setMaxPage] = useState(false);
+  const [concat, setConcat] = useState(false);
   const [page, setPage] = useState(1);
   const [filteredTickets, setFilteredTickets] = useState([]);
   const [isStartDateSelected, setIsStartDateSelected] = useState(false); // Trạng thái chọn ngày "Từ"
@@ -28,7 +30,7 @@ const Ticketssold = () => {
   useEffect(() => {
     if (!timeStart || !timeEnd || !isStartDateSelected) return; // Chỉ gọi API khi cả hai ngày đã được chọn
     const token = localStorage.getItem('token');
-    
+
     fetch(endpoint.tim_kiem_ds_ve_ban.url + param(), {
       method: endpoint.tim_kiem_ds_ve_ban.method,
       headers: {
@@ -39,7 +41,19 @@ const Ticketssold = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.code === 1000) {
-          setFilteredTickets(data.result);
+          if (data.result.length > 0)
+            if (concat) {
+              setFilteredTickets([...filteredTickets, ...data.result]);
+            } else {
+              setFilteredTickets(data.result);
+              setConcat(true);
+            }
+          else {
+            if (page === 1) {
+              setFilteredTickets([])
+            }
+            setMaxPage(true)
+          }
         } else {
           toast.error(data.message, {
             position: 'top-right',
@@ -53,12 +67,26 @@ const Ticketssold = () => {
   }, [timeStart, timeEnd, vehicle, page, isStartDateSelected]);
 
   const handleFilterVehicle = (selectedVehicle) => {
+    setMaxPage(false)
+    setPage(1)
+    setConcat(false)
     setVehicle(selectedVehicle);
   };
 
   const handleTimeStartChange = (value) => {
+    setMaxPage(false)
+    setPage(1)
+    setConcat(false)
     setTimeStart(value);
     setIsStartDateSelected(true); // Ghi nhận người dùng đã chọn ngày "Từ"
+  };
+
+  const handleScroll = (e) => {
+    const bottom = e.target.scrollHeight <= e.target.scrollTop + e.target.clientHeight + 5;
+    if (bottom) {
+      if (!maxPage)
+        setPage(prevPage => prevPage + 1);
+    }
   };
 
   return (
@@ -102,7 +130,7 @@ const Ticketssold = () => {
               </div>
             </div>
           </div>
-          <div className="col-xl-9 col-lg-9 col-md-9">
+          <div className="col-xl-9 col-lg-9 col-md-9" >
             <div className="box-ticker-sold">
               <div className="th">
                 <div className="container">
@@ -116,7 +144,7 @@ const Ticketssold = () => {
                   </div>
                 </div>
               </div>
-              <div className="tr">
+              <div className="tr" onScroll={handleScroll}>
                 {filteredTickets.map((item, index) => (
                   <div className="row mt-2" key={item.id}>
                     <div className="col text-center">{index + 1}</div>

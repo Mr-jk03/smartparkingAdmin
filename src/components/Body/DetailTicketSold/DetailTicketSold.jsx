@@ -37,6 +37,21 @@ const DetailTicketSold = () => {
     return <div>Loading...</div>;
   }
 
+
+  function formatTimestamp(timestamp, format) {
+    const date = new Date(timestamp);
+
+    const map = {
+      'YYYY': date.getFullYear(),
+      'MM': String(date.getMonth() + 1).padStart(2, '0'),
+      'DD': String(date.getDate()).padStart(2, '0'),
+      'HH': String(date.getHours()).padStart(2, '0'),
+      'mm': String(date.getMinutes()).padStart(2, '0'),
+      'ss': String(date.getSeconds()).padStart(2, '0'),
+    };
+
+    return format.replace(/YYYY|MM|DD|HH|mm|ss/g, (matched) => map[matched]);
+  }
   return (
     <div className='wrapper-detailticketsold'>
       <div className="container">
@@ -50,45 +65,45 @@ const DetailTicketSold = () => {
                     <div className="col-xl-6 col-lg-6 col-md-6">
                       <div className="item-dtticketsold">
                         <label htmlFor='id'>ID vé</label>
-                        <input 
-                          type="text" 
-                          name='id' 
+                        <input
+                          type="text"
+                          name='id'
                           value={ticketData?.ticketId || ''}
                           readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
                         <label htmlFor='name'>Tên vé</label>
-                        <input 
-                          type="text" 
-                          name='name' 
+                        <input
+                          type="text"
+                          name='name'
                           value={ticketData?.name || ''}
                           readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
                         <label htmlFor='unit'>Đơn vị</label>
-                        <input 
-                          type="text" 
-                          name='unit' 
+                        <input
+                          type="text"
+                          name='unit'
                           value={ticketData?.unit || ''}
                           readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
                         <label htmlFor='startDate'>Ngày bắt đầu</label>
-                        <input 
-                          type="text" 
-                          name='startDate' 
+                        <input
+                          type="text"
+                          name='startDate'
                           value={ticketData?.startAt ? new Date(ticketData.startAt).toLocaleDateString('vi-VN') : ''}
                           readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
                         <label htmlFor='endDate'>Ngày kết thúc</label>
-                        <input 
-                          type="text" 
-                          name='endDate' 
+                        <input
+                          type="text"
+                          name='endDate'
                           value={ticketData?.expireAt ? new Date(ticketData.expireAt).toLocaleDateString('vi-VN') : ''}
                           readOnly
                         />
@@ -97,36 +112,36 @@ const DetailTicketSold = () => {
                     <div className="col-xl-6 col-lg-6 col-md-6">
                       <div className="item-dtticketsold">
                         <label htmlFor='lastused'>Lần cuối sử dụng</label>
-                        <input 
-                          type="text" 
-                          name='lastused' 
-                          value={ticketData?.usedAt ? new Date(ticketData.usedAt).toLocaleDateString() : ''}
+                        <input
+                          type="text"
+                          name='lastused'
+                          value={ticketData?.usedAt && formatTimestamp(ticketData.usedAt, 'HH:mm:ss DD/MM/YYYY')}
                           readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
                         <label htmlFor='email'>Email</label>
-                        <input 
-                          type="text" 
-                          name='email' 
+                        <input
+                          type="text"
+                          name='email'
                           value={ticketData?.email || ''}
                           readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
                         <label htmlFor='plate'>Biển số</label>
-                        <input 
-                          type="text" 
-                          name='plate' 
+                        <input
+                          type="text"
+                          name='plate'
                           value={ticketData?.plate || ''}
                           readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
                         <label htmlFor='vehicle'>Phương tiện</label>
-                        <input 
-                          type="text" 
-                          name='vehicle' 
+                        <input
+                          type="text"
+                          name='vehicle'
                           value={ticketData?.vehicle || ''}
                           readOnly
                         />

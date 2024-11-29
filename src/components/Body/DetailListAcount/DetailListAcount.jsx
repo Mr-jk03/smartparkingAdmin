@@ -17,6 +17,35 @@ const DetailListAcount = () => {
     const [nowBalanceDt, setNowbalanceDt] = useState('');
     const [statusDt, setStatusDt] = useState('');
 
+    const handleChangeStatus = (e) => {
+        console.log(e.target.value)
+        const token = localStorage.getItem('token');
+
+        fetch(endpoint.sua_trang_thai_tk.url, {
+            method: endpoint.sua_trang_thai_tk.method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ listUid: [id], status: e.target.value.toUpperCase() })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 1000) {
+                    setStatusDt(e.target.vaule === "ACTIVE" ? "Đang hoạt động" : "Đã khoá")
+                    toast.success("Thay đổi thành công", { position: "top-right" })
+                } else {
+                    toast.error(data.message, {
+                        position: 'top-right',
+                    });
+                }
+            })
+            .catch(err => {
+                console.log('Lỗi kết nối:', err);
+                toast.error('Lỗi kết nối đến server!', { position: 'top-right' });
+            });
+    }
+
     useEffect(() => {
         const token = localStorage.getItem('token');
 
@@ -60,8 +89,8 @@ const DetailListAcount = () => {
                 <div className="row">
                     <span className='title-dtlistaccount'>Chi tiết tài khoản</span>
                     <div className="col-xl-12 col-lg-12 col-md-12">
-                        <div className="main-dtlistaccount">
-                            <div className="box-dtlistaccount">
+                        <div className="main-dtlistaccount" >
+                            <div className="box-dtlistaccount" style={{ width: "900px" }}>
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-xl-6 col-lg-6 col-md-6">
@@ -70,7 +99,7 @@ const DetailListAcount = () => {
                                                 <input
                                                     type="text"
                                                     value={idcustomerDt}
-                                                    
+
                                                 />
                                             </div>
                                             <div className="item-dtlistacount">
@@ -125,22 +154,21 @@ const DetailListAcount = () => {
                                             </div>
                                             <div className="item-dtlistacount">
                                                 <label>Trạng thái</label>
-                                                <select
-                                                    value={statusDt}
-                                                    onChange={(e) => setStatusDt(e.target.value)}
+                                                <select className='ip-date'
+                                                    onChange={handleChangeStatus}
                                                 >
-                                                    <option value="Active">Đang hoạt động</option>
-                                                    <option value="Inactive">Ngưng hoạt động</option>
+                                                    <option value="Active" selected={statusDt === "Đang hoạt động"}>Đang hoạt động</option>
+                                                    <option value="Inactive" selected={statusDt === "Đã khoá"}>Ngưng hoạt động</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div className="col-xl-12 col-lg-12 col-md-12">
+                                        {/* <div className="col-xl-12 col-lg-12 col-md-12">
                                             <div className="box-btn">
                                                 <button>
                                                     Sửa
                                                 </button>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>

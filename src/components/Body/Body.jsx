@@ -5,16 +5,18 @@ import { FaMotorcycle } from "react-icons/fa6";
 import { FaCircle } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import { endpoint } from '../../config/apiConfig';
+import { toast } from 'react-toastify';
 
 const Body = () => {
-  const [allTickets, setAllTickets] = useState([]); 
-  const [filteredTickets, setFilteredTickets] = useState([]); 
-  const [vehicleFilter, setVehicleFilter] = useState(''); 
+  const [allTickets, setAllTickets] = useState([]);
+  const [filteredTickets, setFilteredTickets] = useState([]);
+  const [vehicleFilter, setVehicleFilter] = useState("MOTORBIKE");
+  const [status, setStatus] = useState("ACTIVE");
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch(endpoint.lisTicket.url, {
-      method: endpoint.lisTicket.method,
+    fetch(endpoint.timkiemve.url + `?vehicle=${vehicleFilter}&status=${status}`, {
+      method: endpoint.timkiemve.method,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
@@ -24,34 +26,17 @@ const Body = () => {
       .then((data) => {
         if (data.code === 1000) {
           setAllTickets(data.result);
-          setFilteredTickets(data.result); 
         } else {
-          console.error('Error fetching tickets:', data.message);
+          toast.error(data.message, { position: "top-right" })
         }
       })
       .catch((err) => {
-        console.error('Connection error:', err);
+        toast.error("Có lỗi xảy ra", { position: "top-right" })
       });
-  }, []); 
+  }, [status, vehicleFilter]);
 
-  const filterByStatus = (status) => {
-    if (status === '') {
-      setFilteredTickets(allTickets); 
-    } else {
-      const filtered = allTickets.filter((ticket) => ticket.status === status);
-      setFilteredTickets(filtered);
-    }
-  };
 
-  const filterByVehicle = (vehicle) => {
-    setVehicleFilter(vehicle);
-    if (vehicle === '') {
-      setFilteredTickets(allTickets);
-    } else {
-      const filtered = allTickets.filter((ticket) => ticket.vehicle === vehicle);
-      setFilteredTickets(filtered);
-    }
-  };
+
 
   return (
     <div className="wrapper-body">
@@ -75,7 +60,7 @@ const Body = () => {
                 <div className="btn-filter">
                   <button
                     className="btn-filter-vehical"
-                    onClick={() => filterByVehicle('motorbike')} 
+                    onClick={() => setVehicleFilter('MOTORBIKE')}
                   >
                     <i className="icon-vhc">
                       <FaMotorcycle />
@@ -84,18 +69,12 @@ const Body = () => {
                   </button>
                   <button
                     className="btn-filter-vehical"
-                    onClick={() => filterByVehicle('car')}
+                    onClick={() => setVehicleFilter('CAR')}
                   >
                     <i className="icon-vhc">
                       <FaCarSide />
                     </i>
                     Ô tô
-                  </button>
-                  <button
-                    className="btn-filter-vehical"
-                    onClick={() => filterByVehicle('')} 
-                  >
-                    Tất cả
                   </button>
                 </div>
               </div>
@@ -116,16 +95,13 @@ const Body = () => {
                   Theo Trạng thái
                 </span>
                 <div className="btn-filter">
-                  <button className="btn-filter-stt" onClick={() => filterByStatus('')}>
-                    Tất cả
-                  </button>
-                  <button className="btn-filter-stt" onClick={() => filterByStatus('ACTIVE')}>
+                  <button className="btn-filter-stt" onClick={() => setStatus('ACTIVE')}>
                     <i className="icon-stt">
                       <FaCircle className="icon-public" />
                     </i>
                     Công khai
                   </button>
-                  <button className="btn-filter-stt" onClick={() => filterByStatus('INACTIVE')}>
+                  <button className="btn-filter-stt" onClick={() => setStatus('INACTIVE')}>
                     <i className="icon-stt">
                       <FaCircle className="icon-private" />
                     </i>
@@ -141,15 +117,15 @@ const Body = () => {
           {/* Ticket List */}
           <div className="container">
             <div className="row">
-              {filteredTickets.map((item, index) => (
+              {allTickets.map((item, index) => (
                 <div className="col-xl-6 col-lg-6 col-md-6" key={index}>
                   <div className="box-tk">
                     <div className="ticket">
                       <span>Tên vé: {item.name}</span>
                       <span>Phương tiện: {item.vehicle}</span>
-                      <span>Loại vé: Vé {item.type}</span>
+                      <span>Loại vé: {item.unit}</span>
                       <span>Giá vé: {item.price} <sup>đ</sup></span>
-                      <span>Thời gian hết hạn: {item.timeEnd}</span>
+                      <span>Thời gian hết hạn: {item.duration}</span>
                       <div className="btn-detail">
                         <Link to={`/detaillistTicket/${item.id}`}>
                           <button>Chi tiết</button>
