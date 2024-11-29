@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './ApproveMoney.css';
 import Swal from 'sweetalert2';
-import { endpoint } from '../../../config/apiConfig';
+import { endpoint, refreshToken } from '../../../config/apiConfig';
+import { toast } from 'react-toastify';
 
 const ApproveMoney = () => {
     const [aprroveMoneys, setAprroveMoneys] = useState([]);
@@ -30,18 +31,24 @@ const ApproveMoney = () => {
                 'Authorization': `Bearer ${token}`,
             }
         })
-        .then(res => res.json())
-        .then(data => {
-            setLoading(false);
-            if (data.code === 1000) {
-                setAprroveMoneys(data.result);
-            }
-        })
-        .catch(err => {
-            setLoading(false);
-            Swal.fire('Lỗi kết nối', 'Có lỗi xảy ra khi tải dữ liệu. Vui lòng thử lại!', 'error');
-            console.error('Lỗi kết nối:', err);
-        });
+            .then(res => res.json())
+            .then(data => {
+                setLoading(false);
+                if (data.code === 1000) {
+                    setAprroveMoneys(data.result);
+                } else if (data.code === 5010) {
+                    refreshToken()
+                } else {
+                    toast.error(data.message, {
+                        position: "top-right"
+                    })
+                }
+            })
+            .catch(err => {
+                setLoading(false);
+                Swal.fire('Lỗi kết nối', 'Có lỗi xảy ra khi tải dữ liệu. Vui lòng thử lại!', 'error');
+                console.error('Lỗi kết nối:', err);
+            });
     }, []); // Không cần dependency, vì ngày thực tế chỉ lấy 1 lần khi component mount
 
     // Duyệt tiền
@@ -70,19 +77,21 @@ const ApproveMoney = () => {
                     },
                     body: JSON.stringify(body),
                 })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.code === 1000) {
-                        Swal.fire('Thành công', `Giao dịch ${id} đã được duyệt`, 'success');
-                        setAprroveMoneys(prev => prev.filter(item => item.id !== id));
-                    } else {
-                        Swal.fire('Thất bại', `Giao dịch ${id} chưa được duyệt`, 'error');
-                    }
-                })
-                .catch(err => {
-                    Swal.fire('Lỗi kết nối', 'Có lỗi xảy ra khi duyệt giao dịch. Vui lòng thử lại!', 'error');
-                    console.error('Lỗi kết nối:', err);
-                });
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.code === 1000) {
+                            Swal.fire('Thành công', `Giao dịch ${id} đã được duyệt`, 'success');
+                            setAprroveMoneys(prev => prev.filter(item => item.id !== id));
+                        } else if (data.code === 5010) {
+                            refreshToken()
+                        } else {
+                            Swal.fire('Thất bại', `Giao dịch ${id} chưa được duyệt`, 'error');
+                        }
+                    })
+                    .catch(err => {
+                        Swal.fire('Lỗi kết nối', 'Có lỗi xảy ra khi duyệt giao dịch. Vui lòng thử lại!', 'error');
+                        console.error('Lỗi kết nối:', err);
+                    });
             }
         });
     };
@@ -113,19 +122,21 @@ const ApproveMoney = () => {
                     },
                     body: JSON.stringify(body),
                 })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.code === 1000) {
-                        Swal.fire('Thành công', `Giao dịch ${id} đã được huỷ`, 'success');
-                        setAprroveMoneys(prev => prev.filter(item => item.id !== id));
-                    } else {
-                        Swal.fire('Thất bại', `Giao dịch ${id} chưa được huỷ`, 'error');
-                    }
-                })
-                .catch(err => {
-                    Swal.fire('Lỗi kết nối', 'Có lỗi xảy ra khi huỷ giao dịch. Vui lòng thử lại!', 'error');
-                    console.error('Lỗi kết nối:', err);
-                });
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.code === 1000) {
+                            Swal.fire('Thành công', `Giao dịch ${id} đã được huỷ`, 'success');
+                            setAprroveMoneys(prev => prev.filter(item => item.id !== id));
+                        } else if (data.code === 5010) {
+                            refreshToken()
+                        } else {
+                            Swal.fire('Thất bại', `Giao dịch ${id} chưa được huỷ`, 'error');
+                        }
+                    })
+                    .catch(err => {
+                        Swal.fire('Lỗi kết nối', 'Có lỗi xảy ra khi huỷ giao dịch. Vui lòng thử lại!', 'error');
+                        console.error('Lỗi kết nối:', err);
+                    });
             }
         });
     };

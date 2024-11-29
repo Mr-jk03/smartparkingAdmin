@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './DetailListTickets.css';
 import { useParams } from 'react-router-dom';
-import { endpoint } from '../../../config/apiConfig';
+import { endpoint, refreshToken } from '../../../config/apiConfig';
 import { toast } from 'react-toastify';
 
 const DetailListTickets = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [ticketID, setTicketID] = useState('');
   const [nameTicket, setNameTicket] = useState('');
   const [priceTicket, setPriceTicket] = useState('');
@@ -50,10 +50,12 @@ const DetailListTickets = () => {
           setUnit(data.result.unit);
           setVehicle(data.result.vehicle);
           setCreateAt(data.result.createAt);
+        } else if (data.code === 5010) {
+          refreshToken()
         } else {
           toast.error(data.message, {
-            position: 'top-right',
-          });
+            position: "top-right"
+          })
         }
       })
       .catch((err) => {
@@ -63,12 +65,12 @@ const DetailListTickets = () => {
 
   const handleUpdateTicket = () => {
     const token = localStorage.getItem('token');
-    
+
     const bodyStatus = {
-      category: ticketID, 
-      status: statusTicket, 
+      category: ticketID,
+      status: statusTicket,
     };
-  
+
     fetch(endpoint.patch_stt_ticket.url, {
       method: endpoint.patch_stt_ticket.method,
       headers: {
@@ -81,20 +83,24 @@ const DetailListTickets = () => {
       .then((data) => {
         if (data.code === 1000) {
           toast.success('Cập nhật trạng thái thành công', { position: 'top-right' });
+        } else if (data.code === 5010) {
+          refreshToken()
         } else {
-          toast.error(data.message, { position: 'top-right' });
+          toast.error(data.message, {
+            position: "top-right"
+          })
         }
       })
       .catch((err) => {
         toast.error(`Lỗi kết nối: ${err.message}`, { position: 'top-right' });
       });
-  
+
     const bodyPrice = {
-      id: ticketID, 
+      id: ticketID,
       price: priceTicket,
       vehicle: vehicle,
     };
-  
+
     fetch(endpoint.patch_price_ticket.url, {
       method: endpoint.patch_price_ticket.method,
       headers: {
@@ -107,15 +113,19 @@ const DetailListTickets = () => {
       .then((data) => {
         if (data.code === 1000) {
           toast.success('Cập nhật giá và phương tiện thành công', { position: 'top-right' });
+        } else if (data.code === 5010) {
+          refreshToken()
         } else {
-          toast.error(data.message, { position: 'top-right' });
+          toast.error(data.message, {
+            position: "top-right"
+          })
         }
       })
       .catch((err) => {
         toast.error(`Lỗi kết nối: ${err.message}`, { position: 'top-right' });
       });
   };
-  
+
 
 
   return (
@@ -131,8 +141,8 @@ const DetailListTickets = () => {
                     <div className="col-xl-6 col-lg-6 col-md-6">
                       <div className="item">
                         <label htmlFor="id"><b>ID vé:</b></label>
-                        <input type="text" value={ticketID} readOnly 
-                              onChange={(e) => setTicketID(e.target.value)}
+                        <input type="text" value={ticketID} readOnly
+                          onChange={(e) => setTicketID(e.target.value)}
                         />
                       </div>
 

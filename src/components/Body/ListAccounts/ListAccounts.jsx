@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEye } from "react-icons/fa";
 import './ListAccounts.css';
-import { endpoint } from '../../../config/apiConfig';
+import { endpoint, refreshToken } from '../../../config/apiConfig';
 import { toast } from 'react-toastify';
 
 const ListAccounts = () => {
@@ -46,6 +46,8 @@ const ListAccounts = () => {
             setMaxPage(true)
           }
 
+        } else if (data.code === 5010) {
+          refreshToken()
         } else {
           toast.error(data.message, {
             position: "top-right"

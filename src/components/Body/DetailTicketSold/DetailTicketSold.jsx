@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './DetailTicketSold.css';
 import { useParams } from 'react-router-dom';
-import { endpoint } from '../../../config/apiConfig';
+import { endpoint, refreshToken } from '../../../config/apiConfig';
+import { toast } from 'react-toastify';
 
 const DetailTicketSold = () => {
   const { id } = useParams(); // Get the id from the URL parameters
@@ -22,8 +23,12 @@ const DetailTicketSold = () => {
       .then((data) => {
         if (data.code === 1000) {
           setTicketData(data.result);
+        } else if (data.code === 5010) {
+          refreshToken()
         } else {
-          console.error('Error fetching data');
+          toast.error(data.message, {
+            position: "top-right"
+          })
         }
         setLoading(false);
       })

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './DepositHistorys.css';
-import { endpoint } from '../../../config/apiConfig';
+import { endpoint, refreshToken } from '../../../config/apiConfig';
 import { toast, ToastContainer } from 'react-toastify';
 
 const DepositHistorys = () => {
@@ -15,18 +15,18 @@ const DepositHistorys = () => {
     const convertDate = (date) => {
         let split = date.split('-');
         return `${split[2]}/${split[1]}/${split[0]}`;
-      }
-      
+    }
 
-    const param = () =>{
+
+    const param = () => {
         return `?page=${page}&status=${filterStatus}&date=${inputDate === '' ? '' : convertDate(inputDate)}`;
     }
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         setLoading(true);
-       
-        const url = `${endpoint.deposit_htr.url + param()}`; 
+
+        const url = `${endpoint.deposit_htr.url + param()}`;
 
         fetch(url, {
             method: endpoint.deposit_htr.method,
@@ -35,40 +35,42 @@ const DepositHistorys = () => {
                 'Authorization': `Bearer ${token}`,
             }
         })
-        .then(res => res.json())
-        .then(data => {
-            setLoading(false);
-            if (data.code === 1000) {
-                if (data.result.length > 0)
-                    if (concat) {
-                        setDeposits([...deposits, ...data.result]);
-                    } else {
-                      setDeposits(data.result)
-                      setConcat(true);
+            .then(res => res.json())
+            .then(data => {
+                setLoading(false);
+                if (data.code === 1000) {
+                    if (data.result.length > 0)
+                        if (concat) {
+                            setDeposits([...deposits, ...data.result]);
+                        } else {
+                            setDeposits(data.result)
+                            setConcat(true);
+                        }
+                    else {
+                        setMaxPage(true)
                     }
-                  else {
-                    setMaxPage(true)
-                  }
-            } else {
-                toast.error(data.message, {
-                    position: "top-right"
-                  })
-            }
-        })
-        .catch(error => {
-            setLoading(false);
-            console.error('Lỗi kết nối:', error);
-        });
+                } else if (data.code === 5010) {
+                    refreshToken()
+                } else {
+                    toast.error(data.message, {
+                        position: "top-right"
+                    })
+                }
+            })
+            .catch(error => {
+                setLoading(false);
+                console.error('Lỗi kết nối:', error);
+            });
     }, [page, inputDate, filterStatus]);
 
-    const onChangeRadio = (e) =>{
+    const onChangeRadio = (e) => {
         setMaxPage(false)
         setPage(1)
         setFilterStatus(e.target.value)
         setConcat(false)
     }
 
-    const changDate =(e) =>{
+    const changDate = (e) => {
         setMaxPage(false)
         setPage(1)
         setInputDate(e.target.value)
@@ -78,13 +80,13 @@ const DepositHistorys = () => {
     const handleScroll = (e) => {
         const bottom = e.target.scrollHeight <= e.target.scrollTop + e.target.clientHeight + 5;
         if (bottom) {
-          if (!maxPage)
-            setPage(prevPage => prevPage + 1);
+            if (!maxPage)
+                setPage(prevPage => prevPage + 1);
         }
-      };
+    };
 
     return (
-        
+
         <div className='wrapper-deposit' >
             <ToastContainer />
             <div className="container">
@@ -152,7 +154,7 @@ const DepositHistorys = () => {
                     </div>
                 </div>
             </div>
-            
+
         </div>
     );
 }

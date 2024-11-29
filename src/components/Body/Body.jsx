@@ -4,7 +4,7 @@ import { FaCarSide } from "react-icons/fa";
 import { FaMotorcycle } from "react-icons/fa6";
 import { FaCircle } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
-import { endpoint } from '../../config/apiConfig';
+import { endpoint, refreshToken } from '../../config/apiConfig';
 import { toast } from 'react-toastify';
 
 const Body = () => {
@@ -26,8 +26,12 @@ const Body = () => {
       .then((data) => {
         if (data.code === 1000) {
           setAllTickets(data.result);
+        } else if (data.code === 5010) {
+          refreshToken()
         } else {
-          toast.error(data.message, { position: "top-right" })
+          toast.error(data.message, {
+            position: "top-right"
+          })
         }
       })
       .catch((err) => {

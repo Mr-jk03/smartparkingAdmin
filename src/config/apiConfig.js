@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 
 export const baseApi = "http://localhost:8080/gateway/v1"
 export const endpoint = {
@@ -9,7 +10,10 @@ export const endpoint = {
         url: baseApi + "/ticket/category/all?vehicle=car&status=active&page=1",
         method: "GET"
     },
-
+    refreshTokenApi: {
+        url: baseApi + "/identity/auth/refresh",
+        method: "POST"
+    },
     timkiemve: { /*danh sach ve --da xong*/
         url: baseApi + "/ticket/category/tim-kiem-ve",
         method: "GET"
@@ -90,4 +94,43 @@ export const endpoint = {
     }
 
 
+
+
 }
+
+export const refreshToken = () => {
+    if (localStorage.getItem('refreshed') === '1') {
+        return;
+    }
+
+    localStorage.setItem('refreshed', '1');
+
+    const token = localStorage.getItem('token');
+    const data = { token };
+
+    fetch(endpoint.refreshTokenApi.url, {
+        method: endpoint.refreshTokenApi.method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.code === 1000) {
+                localStorage.setItem('token', data.result.token);
+                toast.info("Thực hiện lại thao tác", { position: "top-right" });
+            } else {
+                localStorage.removeItem('token');
+                window.location.href = "/login";
+            }
+        })
+        .catch((error) => {
+            toast.error("Không thể thực hiện", { position: "top-right" });
+        });
+
+    setTimeout(() => {
+        console.log("set")
+        localStorage.removeItem('refreshed');
+    }, 2000);
+};

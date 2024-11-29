@@ -17,6 +17,7 @@ import GroupTickets from './components/Body/GroupTickets/GroupTickets'
 import DetailListTickets from './components/Body/DetailListTickets/DetailListTickets'
 import DetailTicketSold from './components/Body/DetailTicketSold/DetailTicketSold';
 import DetailListAcount from './components/Body/DetailListAcount/DetailListAcount';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -24,23 +25,24 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token); 
+    setIsLoggedIn(!!token);
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); 
-    setIsLoggedIn(false); 
-    navigate('/login'); 
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    navigate('/login');
   };
 
   return (
     <>
+      <ToastContainer />
       {isLoggedIn ? (
         <div>
-          <Header/> 
+          <Header />
           <div className='row'>
             <div className='col-xl-2 col-lg-2 col-md-2'>
-              <Menu onLogout={handleLogout}/>
+              <Menu onLogout={handleLogout} />
             </div>
             <div className='col-xl-10 col-lg-10 col-md-10'>
               <Routes>
@@ -62,7 +64,7 @@ function App() {
           </div>
         </div>
       ) : (
-        <Login onLogin={() => setIsLoggedIn(true)} /> 
+        <Login onLogin={() => setIsLoggedIn(true)} />
       )}
     </>
   );

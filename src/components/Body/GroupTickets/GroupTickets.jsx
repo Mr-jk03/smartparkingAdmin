@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './GroupTickets.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { endpoint } from '../../../config/apiConfig';
+import { endpoint, refreshToken } from '../../../config/apiConfig';
 
 const GroupTickets = () => {
   const [dayStart, setDayStart] = useState('');    // Ngày bắt đầu
@@ -25,8 +25,12 @@ const GroupTickets = () => {
       .then((data) => {
         if (data.code === 1000) {
           setTickets(data.result);
+        } else if (data.code === 5010) {
+          refreshToken()
         } else {
-          toast.error('Lỗi khi lấy dữ liệu vé.');
+          toast.error(data.message, {
+            position: "top-right"
+          })
         }
       })
       .catch((err) => {
@@ -111,8 +115,12 @@ const GroupTickets = () => {
           setCustomerList('');
           setDayStart('');
           setDayEnd('');
+        } else if (data.code === 5010) {
+          refreshToken()
         } else {
-          toast.error('Lỗi khi mua vé.');
+          toast.error(data.message, {
+            position: "top-right"
+          })
         }
       })
       .catch((err) => {

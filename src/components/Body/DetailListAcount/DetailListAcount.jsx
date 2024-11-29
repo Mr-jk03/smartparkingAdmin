@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './DetailListAcount.css';
 import { useParams } from 'react-router-dom';
-import { endpoint } from '../../../config/apiConfig';
+import { endpoint, refreshToken } from '../../../config/apiConfig';
 import { toast, ToastContainer } from 'react-toastify';
 
 const DetailListAcount = () => {
@@ -34,10 +34,12 @@ const DetailListAcount = () => {
                 if (data.code === 1000) {
                     setStatusDt(e.target.vaule === "ACTIVE" ? "Đang hoạt động" : "Đã khoá")
                     toast.success("Thay đổi thành công", { position: "top-right" })
+                } else if (data.code === 5010) {
+                    refreshToken()
                 } else {
                     toast.error(data.message, {
-                        position: 'top-right',
-                    });
+                        position: "top-right"
+                    })
                 }
             })
             .catch(err => {
@@ -70,10 +72,12 @@ const DetailListAcount = () => {
                     setTicketBoughtDt(result.so_ve_da_mua || 0);
                     setNowbalanceDt(result.so_du || 0);
                     setStatusDt(result.status || 'Active');
+                } else if (data.code === 5010) {
+                    refreshToken()
                 } else {
                     toast.error(data.message, {
-                        position: 'top-right',
-                    });
+                        position: "top-right"
+                    })
                 }
             })
             .catch(err => {

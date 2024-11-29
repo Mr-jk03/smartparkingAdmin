@@ -2,91 +2,101 @@ import React, { useEffect, useState } from 'react';
 import './Revenue.css';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 // import allData from '../../LocalData/DataRevenue.json';
-import { endpoint } from '../../../config/apiConfig';
+import { endpoint, refreshToken } from '../../../config/apiConfig';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 const Revenue = () => {
 
-    const currentMonth = new Date().getMonth() + 1; 
-    const currentYear = new Date().getFullYear(); 
+    const currentMonth = new Date().getMonth() + 1;
+    const currentYear = new Date().getFullYear();
 
-    const [monthRvn, setMonthRvn] = useState(currentMonth); 
-    const [yearRvn, setYearRvn] = useState(currentYear); 
+    const [monthRvn, setMonthRvn] = useState(currentMonth);
+    const [yearRvn, setYearRvn] = useState(currentYear);
     const [filteredData, setFilteredData] = useState([]);
     const [totalMonth, setTotalMonth] = useState(0);
     const [tableTicket, setTableTicket] = useState([]);
 
     const formatDate = (timestamp) => {
         const date = new Date(timestamp);
-        return date.toLocaleDateString('vi-VN'); 
+        return date.toLocaleDateString('vi-VN');
     };
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        fetch(`${endpoint.revenue.url.split('?')[0]}?date=${monthRvn}/${yearRvn}`,{
+        fetch(`${endpoint.revenue.url.split('?')[0]}?date=${monthRvn}/${yearRvn}`, {
             method: endpoint.revenue.method,
-            headers:{
+            headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             }
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.code === 1000) {
-                setFilteredData(data.result);
-                const totalRevenue = data.result.reduce((total, item) => total + item.amountMotorbike + item.amountCar, 0);
-                setTotalMonth(totalRevenue);
-            } else {
-                console.error('Lỗi khi lấy dữ liệu');
-            }
-        })
-        .catch(error => {
-            console.log('Lỗi kết nối:', error);
-        });
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 1000) {
+                    setFilteredData(data.result);
+                    const totalRevenue = data.result.reduce((total, item) => total + item.amountMotorbike + item.amountCar, 0);
+                    setTotalMonth(totalRevenue);
+                } else if (data.code === 5010) {
+                    refreshToken()
+                } else {
+                    toast.error(data.message, {
+                        position: "top-right"
+                    })
+                }
+            })
+            .catch(error => {
+                console.log('Lỗi kết nối:', error);
+            });
     }, [monthRvn, yearRvn]);
 
-    useEffect(() =>{
+    useEffect(() => {
         const token = localStorage.getItem('token');
-        fetch(`${endpoint.list_ticke_table_revenue.url.split('?')[0]}?date=${monthRvn}/${yearRvn}`,{
+        fetch(`${endpoint.list_ticke_table_revenue.url.split('?')[0]}?date=${monthRvn}/${yearRvn}`, {
             method: endpoint.list_ticke_table_revenue.method,
-            headers:{
+            headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             }
         })
-        .then(res => res.json())
-        .then(data => {
-            if(data.code === 1000){
-                setTableTicket(data.result);
-            }else{
-                console.error('loi khi lay du lieu')
-            }
-        })
-        .catch(err =>{
-            console.log('Loi ket noi', err);
-        })
-    },[])
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 1000) {
+                    setTableTicket(data.result);
+                } else if (data.code === 5010) {
+                    refreshToken()
+                } else {
+                    toast.error(data.message, {
+                        position: "top-right"
+                    })
+                }
+            })
+            .catch(err => {
+                console.log('Loi ket noi', err);
+            })
+    }, [])
 
     return (
         <div className='wrapper-revenue'>
+            <ToastContainer />
             <div className="container">
                 <div className="row">
                     <span className='title-revenue'>Thống kê doanh thu</span>
                     <div className="col-xl-12 col-lg-12 col-md-12">
                         <div className="main-filter">
                             <span>Tháng</span>
-                            <input 
-                                type="number" 
-                                placeholder='Nhập tháng...' 
+                            <input
+                                type="number"
+                                placeholder='Nhập tháng...'
                                 value={monthRvn}
-                                onChange={(e) => setMonthRvn(Number(e.target.value))} 
+                                onChange={(e) => setMonthRvn(Number(e.target.value))}
                             />
                             <span>Năm</span>
-                            <input 
-                                type="number" 
-                                placeholder='Nhập năm...' 
+                            <input
+                                type="number"
+                                placeholder='Nhập năm...'
                                 value={yearRvn}
-                                onChange={(e) => setYearRvn(Number(e.target.value))} 
+                                onChange={(e) => setYearRvn(Number(e.target.value))}
                             />
                         </div>
                     </div>
@@ -132,12 +142,12 @@ const Revenue = () => {
                         <div className="tbody-revenue">
                             <div className="container">
                                 {tableTicket.map((item, index) =>
-                                <div className="row" key={index}>
-                                    <div className="col-xl-2 col-lg-2 col-md-2 text-center">{index + 1}</div>
-                                    <div className="col-xl-4 col-lg-4 col-md-4 text-center">{formatDate(item.buyAt)}</div>
-                                    <div className="col-xl-3 col-lg-3 col-md-3 text-center">{item.category.price}</div>
-                                    <div className="col-xl-3 col-lg-3 col-md-3 text-center">{item.category.vehicle}</div>
-                                </div>
+                                    <div className="row" key={index}>
+                                        <div className="col-xl-2 col-lg-2 col-md-2 text-center">{index + 1}</div>
+                                        <div className="col-xl-4 col-lg-4 col-md-4 text-center">{formatDate(item.buyAt)}</div>
+                                        <div className="col-xl-3 col-lg-3 col-md-3 text-center">{item.category.price}</div>
+                                        <div className="col-xl-3 col-lg-3 col-md-3 text-center">{item.category.vehicle}</div>
+                                    </div>
                                 )}
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Ticketssold.css';
 import { Link } from 'react-router-dom';
-import { endpoint } from '../../../config/apiConfig';
+import { endpoint, refreshToken } from '../../../config/apiConfig';
 import { toast, ToastContainer } from 'react-toastify';
 
 const Ticketssold = () => {
@@ -54,10 +54,12 @@ const Ticketssold = () => {
             }
             setMaxPage(true)
           }
+        } else if (data.code === 5010) {
+          refreshToken()
         } else {
           toast.error(data.message, {
-            position: 'top-right',
-          });
+            position: "top-right"
+          })
         }
       })
       .catch((err) => {
