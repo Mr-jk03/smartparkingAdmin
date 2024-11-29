@@ -14,11 +14,11 @@ export const endpoint = {
         method: "GET"
     },
     listAccount: { /**danh sach tk --da xong */
-        url: baseApi + "/identity/users/ds-tai-khoan?name=&status=block&page=1",
+        url: baseApi + "/identity/users/ds-tai-khoan",
         method: "GET"
     },
     deposit_htr:{ /**lich su nap tien -- da xong */
-        url: baseApi + "/vault/deposit/mn/history?date=25/11/2024&status=CANCEL&page=1",
+        url: baseApi + "/vault/deposit/mn/history",
         method: "GET"
     },
     revenue:{ /** bieu do thong ke doanh thu -- da xong*/
@@ -34,7 +34,7 @@ export const endpoint = {
         method: "POST"
     },
     list_approvemoney:{ /**ds duyet tien thu cong */
-        url: baseApi + "/vault/deposit/mn/history?date=28/11/2024&status=wait&page=1",
+        url: baseApi + "/vault/deposit/mn/history",
         method: "GET"
     },
     approvemoney:{ /**duyet tien thu cong */
@@ -44,6 +44,39 @@ export const endpoint = {
     no_approvemoney:{ /**huy yeu cau nap tien */
         url: baseApi + "/vault/deposit/cancel",
         method: "POST"
+    },
+    list_ticke_table_revenue:{ /**ds ves ban duoi doanh thu */
+        url: baseApi + "/ticket/ds-ve-ban",
+        method: "GET"
+    },
+    tim_kiem_ds_ve_ban:{ /*tim kiem ve */
+        url: baseApi + "/ticket/timkiem-ds-ve-ban",
+        method: "GET"
+    },
+    chitiet_vedamua:{
+        url: (id) => baseApi + `/ticket/admin/${id}`,
+        method: "GET"
+    },
+    thong_tin_tai_khoan:{
+        url: baseApi + "/identity/users/info/thong_tin_tai_khoan",
+        method: "GET"
+    },
+    settingLocation:{ /**Cai datj vi tri */
+        url: baseApi + "/ticket/setting",
+        method: "GET"
+    }, 
+    put_settingLocation:{ /* sua vi tri */
+        url: baseApi + "/ticket/setting",
+        method: "PUT"
+    },
+    patch_stt_ticket:{ /**cap nhat trang thai ve trong cua hang doi fig api*/
+        url: baseApi + "/ticket/category/update/status",
+        method: "PATCH"
+    },
+    patch_price_ticket:{ /*cap nhat gia ve trong cua hang ---doi fig api*/
+        url: baseApi + "/ticket/category",
+        method: "PATCH"
     }
+
 
 }

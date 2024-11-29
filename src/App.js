@@ -56,7 +56,7 @@ function App() {
                 <Route path="/buygrouptickets" element={<GroupTickets />} />
                 <Route path="/detaillistTicket/:id" element={<DetailListTickets />} />
                 <Route path="/detailticketsold/:id" element={<DetailTicketSold />} />
-                <Route path="/detaillistaccount/:idcustomer" element={<DetailListAcount />} />
+                <Route path="/detaillistaccount/:id" element={<DetailListAcount />} />
               </Routes>
             </div>
           </div>

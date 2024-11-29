@@ -14,6 +14,12 @@ const Revenue = () => {
     const [yearRvn, setYearRvn] = useState(currentYear); 
     const [filteredData, setFilteredData] = useState([]);
     const [totalMonth, setTotalMonth] = useState(0);
+    const [tableTicket, setTableTicket] = useState([]);
+
+    const formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        return date.toLocaleDateString('vi-VN'); 
+    };
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -28,7 +34,7 @@ const Revenue = () => {
         .then(data => {
             if (data.code === 1000) {
                 setFilteredData(data.result);
-                const totalRevenue = data.result.reduce((total, item) => total + item.motorbike + item.car, 0);
+                const totalRevenue = data.result.reduce((total, item) => total + item.amountMotorbike + item.amountCar, 0);
                 setTotalMonth(totalRevenue);
             } else {
                 console.error('Lỗi khi lấy dữ liệu');
@@ -38,6 +44,28 @@ const Revenue = () => {
             console.log('Lỗi kết nối:', error);
         });
     }, [monthRvn, yearRvn]);
+
+    useEffect(() =>{
+        const token = localStorage.getItem('token');
+        fetch(`${endpoint.list_ticke_table_revenue.url.split('?')[0]}?date=${monthRvn}/${yearRvn}`,{
+            method: endpoint.list_ticke_table_revenue.method,
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.code === 1000){
+                setTableTicket(data.result);
+            }else{
+                console.error('loi khi lay du lieu')
+            }
+        })
+        .catch(err =>{
+            console.log('Loi ket noi', err);
+        })
+    },[])
 
     return (
         <div className='wrapper-revenue'>
@@ -82,8 +110,8 @@ const Revenue = () => {
                                     <YAxis />
                                     <Tooltip />
                                     <Legend />
-                                    <Bar dataKey="motorbike" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-                                    <Bar dataKey="car" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+                                    <Bar dataKey="amountMotorbike" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+                                    <Bar dataKey="amountCar" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
@@ -103,12 +131,12 @@ const Revenue = () => {
 
                         <div className="tbody-revenue">
                             <div className="container">
-                                {filteredData.map((item, index) =>
+                                {tableTicket.map((item, index) =>
                                 <div className="row" key={index}>
                                     <div className="col-xl-2 col-lg-2 col-md-2 text-center">{index + 1}</div>
-                                    <div className="col-xl-4 col-lg-4 col-md-4 text-center">{item.datetime}</div>
-                                    <div className="col-xl-3 col-lg-3 col-md-3 text-center">{item.amount}</div>
-                                    <div className="col-xl-3 col-lg-3 col-md-3 text-center">{item.vehicle}</div>
+                                    <div className="col-xl-4 col-lg-4 col-md-4 text-center">{formatDate(item.buyAt)}</div>
+                                    <div className="col-xl-3 col-lg-3 col-md-3 text-center">{item.category.price}</div>
+                                    <div className="col-xl-3 col-lg-3 col-md-3 text-center">{item.category.vehicle}</div>
                                 </div>
                                 )}
                             </div>

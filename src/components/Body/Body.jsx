@@ -7,8 +7,9 @@ import { Link } from 'react-router-dom';
 import { endpoint } from '../../config/apiConfig';
 
 const Body = () => {
-  const [allTickets, setAllTickets] = useState([]); // To store original data
-  const [filteredTickets, setFilteredTickets] = useState([]); // For filtered results
+  const [allTickets, setAllTickets] = useState([]); 
+  const [filteredTickets, setFilteredTickets] = useState([]); 
+  const [vehicleFilter, setVehicleFilter] = useState(''); 
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -23,7 +24,7 @@ const Body = () => {
       .then((data) => {
         if (data.code === 1000) {
           setAllTickets(data.result);
-          setFilteredTickets(data.result); // Initial display
+          setFilteredTickets(data.result); 
         } else {
           console.error('Error fetching tickets:', data.message);
         }
@@ -31,13 +32,23 @@ const Body = () => {
       .catch((err) => {
         console.error('Connection error:', err);
       });
-  }, []); // Only runs once on component mount
+  }, []); 
 
   const filterByStatus = (status) => {
     if (status === '') {
-      setFilteredTickets(allTickets); // Show all tickets
+      setFilteredTickets(allTickets); 
     } else {
       const filtered = allTickets.filter((ticket) => ticket.status === status);
+      setFilteredTickets(filtered);
+    }
+  };
+
+  const filterByVehicle = (vehicle) => {
+    setVehicleFilter(vehicle);
+    if (vehicle === '') {
+      setFilteredTickets(allTickets);
+    } else {
+      const filtered = allTickets.filter((ticket) => ticket.vehicle === vehicle);
       setFilteredTickets(filtered);
     }
   };
@@ -49,7 +60,6 @@ const Body = () => {
           <span className="title-listTicker">Danh sách vé</span>
           <span style={{ fontWeight: 'bold' }}>Bộ lọc</span>
 
-          {/* Filter by Vehicle */}
           <div className="container">
             <div className="row">
               <div className="col-xl-12 col-lg-12 col-md-12">
@@ -63,17 +73,29 @@ const Body = () => {
                   Theo phương tiện
                 </span>
                 <div className="btn-filter">
-                  <button className="btn-filter-vehical">
+                  <button
+                    className="btn-filter-vehical"
+                    onClick={() => filterByVehicle('motorbike')} 
+                  >
                     <i className="icon-vhc">
                       <FaMotorcycle />
                     </i>
                     Xe máy
                   </button>
-                  <button className="btn-filter-vehical">
+                  <button
+                    className="btn-filter-vehical"
+                    onClick={() => filterByVehicle('car')}
+                  >
                     <i className="icon-vhc">
                       <FaCarSide />
                     </i>
                     Ô tô
+                  </button>
+                  <button
+                    className="btn-filter-vehical"
+                    onClick={() => filterByVehicle('')} 
+                  >
+                    Tất cả
                   </button>
                 </div>
               </div>

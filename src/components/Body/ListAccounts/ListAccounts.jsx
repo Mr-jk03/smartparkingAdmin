@@ -2,18 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEye } from "react-icons/fa";
 import './ListAccounts.css';
-import { endpoint } from '../../../config/apiConfig'; // Import config API
+import { endpoint } from '../../../config/apiConfig';
+import { toast } from 'react-toastify';
 
 const ListAccounts = () => {
-  const [customers, setCustomers] = useState([]);
+  const [customers, setCustomers] = useState([]); // Lưu dữ liệu gốc từ API
   const [searchInput, setSearchInput] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('active');
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(false);
+  const [concat, setConcat] = useState(false)
+
+
+  const param = () =>{
+    return `?name=${encodeURIComponent(searchInput)}&status=${statusFilter}&page=${page}`
+  }
 
   useEffect(() => {
     const token = localStorage.getItem('token');
 
-    fetch(endpoint.listAccount.url, {
+    fetch(endpoint.listAccount.url + param(), {
       method: endpoint.listAccount.method,
       headers: {
         'Content-Type': 'application/json',
@@ -23,27 +32,48 @@ const ListAccounts = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.code === 1000) {
-          setCustomers(data.result.items || []);
+          if (data.result.length > 0)
+            if (concat) {
+              setCustomers([...customers, ...data.result]);
+            } else {
+              setCustomers(data.result);
+              setConcat(true);
+            }
+          else {
+            setMaxPage(true)
+          }
+          
         } else {
-          setError(`Lỗi tải dữ liệu: ${data.message}`);
+          toast.error(data.message, {
+            position: "top-right"
+          })
         }
       })
       .catch((err) => {
         setError(`Lỗi kết nối: ${err.message}`);
       });
-  }, []);
+  }, [searchInput, statusFilter, page]);
 
-  const filterInput = customers.filter(customer => {
-    const matchesSearch =
-      (customer.email && customer.email.toLowerCase().includes(searchInput.toLowerCase())) ||
-      (customer.name && customer.name.toLowerCase().includes(searchInput.toLowerCase())) ||
-      (customer.phone && customer.phone.toString().includes(searchInput));
+  const onChangeRadio = (e) =>{
+    setMaxPage(false)
+    setPage(1)
+    setStatusFilter(e.target.value)
+    setConcat(false)
+  }
+  const changInputSearch =(e) =>{
+    setMaxPage(false)
+    setPage(1)
+    setSearchInput(e.target.value)
+    setConcat(false)
+  }
 
-    const matchesStatus =
-      statusFilter === '' || customer.status.toLowerCase() === statusFilter.toLowerCase();
-
-    return matchesSearch && matchesStatus;
-  });
+  const handleScroll = (e) => {
+    const bottom = e.target.scrollHeight <= e.target.scrollTop + e.target.clientHeight + 5;
+    if (bottom) {
+      if (!maxPage)
+        setPage(prevPage => prevPage + 1);
+    }
+  };
 
   if (error) {
     return <div>{error}</div>;
@@ -61,7 +91,7 @@ const ListAccounts = () => {
                 type="text"
                 placeholder='Tên khách hàng'
                 value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
+                onChange={changInputSearch}
               />
             </div>
           </div>
@@ -71,25 +101,17 @@ const ListAccounts = () => {
               <input
                 type="radio"
                 name="status"
-                value=""
-                checked={statusFilter === ''}
-                onChange={(e) => setStatusFilter(e.target.value)}
-              />
-              <span>Tất cả</span>
-              <input
-                type="radio"
-                name="status"
                 value="active"
                 checked={statusFilter === 'active'}
-                onChange={(e) => setStatusFilter(e.target.value)}
+                onChange={onChangeRadio}
               />
               <span>Đang hoạt động</span>
               <input
                 type="radio"
                 name="status"
-                value="inactive"
-                checked={statusFilter === 'inactive'}
-                onChange={(e) => setStatusFilter(e.target.value)}
+                value="block"
+                checked={statusFilter === 'block'}
+                onChange={onChangeRadio}
               />
               <span>Không hoạt động</span>
             </div>
@@ -108,18 +130,18 @@ const ListAccounts = () => {
                 </div>
               </div>
             </div>
-            <div className="t-body-listac">
+            <div className="t-body-listac" onScroll={handleScroll}>
               <div className="container">
-                {filterInput.map((customer, index) => (
+                {customers.map((customer, index) => (
                   <div className="row text-align-center" key={index}>
                     <div className="col-xl-1 col-lg-1 col-md-1">{index + 1}</div>
-                    <div className="col-xl-2 col-lg-2 col-md-2">{customer.idcustomer}</div>
+                    <div className="col-xl-2 col-lg-2 col-md-2">{customer.id}</div>
                     <div className="col-xl-3 col-lg-3 col-md-3">{customer.email}</div>
                     <div className="col-xl-2 col-lg-2 col-md-2">{customer.name}</div>
-                    <div className="col-xl-2 col-lg-2 col-md-2">{customer.phone}</div>
+                    <div className="col-xl-2 col-lg-2 col-md-2">{customer.sdt || 'N/A'}</div>
                     <div className="col-xl-1 col-lg-1 col-md-1">{customer.status}</div>
                     <div className="col-xl-1 col-lg-1 col-md-1 d-flex justify-content-center align-items-center">
-                      <Link to={`/detaillistaccount/${customer.idcustomer}`}>
+                      <Link to={`/detaillistaccount/${customer.id}`}>
                         <button className='btn-active-item-list'>
                           <FaEye />
                         </button>
@@ -136,4 +158,4 @@ const ListAccounts = () => {
   );
 };
 
-export default ListAccounts
+export default ListAccounts;

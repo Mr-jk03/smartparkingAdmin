@@ -1,38 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './DetailTicketSold.css';
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ticketsold from '../../LocalData/TicketSold.json';
+import { endpoint } from '../../../config/apiConfig';
 
 const DetailTicketSold = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Get the id from the URL parameters
+  const [ticketData, setTicketData] = useState(null); // Store ticket data
+  const [loading, setLoading] = useState(true); // Track loading state
 
-  const item = ticketsold.find((item) => item.id === id);
-  const [idticketsoldDt, setIdTicketsoldDt] = useState(item.id);
-  const [nameticketsoldDt, setNameticketsoldDt] = useState(item.name);
-  const [unitsoldDt, setUnitsoldDt] = useState(item.unit);
-  const [startTimeSoldDt, setStartTimesoldDt] = useState(item.starttime);
-  const [endTimeSoldDt, setEndtimesoldDt] = useState(item.endtime);
-  const [lastUsesoldDt, setlastUsesoldDt] = useState(item.lastused);
-  const [emailsoldDt, setemailsoldDt] = useState(item.email);
-  const [platesoldDt, setplatesoldDt] = useState(item.plate);
-  const [vehiclesoldDt, setvehiclesoldDt] = useState(item.vehicle);
+  // Fetch ticket data by id when the component mounts
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    fetch(endpoint.chitiet_vedamua.url(id), {
+      method: endpoint.chitiet_vedamua.method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.code === 1000) {
+          setTicketData(data.result);
+        } else {
+          console.error('Error fetching data');
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log('Connection error', err);
+        setLoading(false);
+      });
+  }, [id]);
 
-  const handleEdit = () => {
-    console.log("Thông tin vé đã chỉnh sửa:");
-    console.log({
-      id: idticketsoldDt,
-      name: nameticketsoldDt,
-      unit: unitsoldDt,
-      starttime: startTimeSoldDt,
-      endtime: endTimeSoldDt,
-      lastused: lastUsesoldDt,
-      email: emailsoldDt,
-      plate: platesoldDt,
-      vehicle: vehiclesoldDt,
-    });
-  };
-  
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className='wrapper-detailticketsold'>
@@ -46,83 +49,88 @@ const DetailTicketSold = () => {
                   <div className="row">
                     <div className="col-xl-6 col-lg-6 col-md-6">
                       <div className="item-dtticketsold">
-                        <label for='id'>ID vé</label>
-                        <input type="text" name='id' 
-                          value={idticketsoldDt}
-                          onChange={(e) => setIdTicketsoldDt(e.target.value)}
+                        <label htmlFor='id'>ID vé</label>
+                        <input 
+                          type="text" 
+                          name='id' 
+                          value={ticketData?.ticketId || ''}
+                          readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
-                        <label for='name'>Tên vé</label>
-                        <input type="text" name='name' 
-                          value={nameticketsoldDt}
-                          onChange={(e) => setNameticketsoldDt(e.target.value)}
+                        <label htmlFor='name'>Tên vé</label>
+                        <input 
+                          type="text" 
+                          name='name' 
+                          value={ticketData?.name || ''}
+                          readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
-                        <label for='unit'>Đơn vị</label>
-                        <input type="text" name='unit' 
-                          value={unitsoldDt}
-                          onChange={(e) => setUnitsoldDt(e.target.value)}
+                        <label htmlFor='unit'>Đơn vị</label>
+                        <input 
+                          type="text" 
+                          name='unit' 
+                          value={ticketData?.unit || ''}
+                          readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
-                        <label for='quantity'>Ngày bắt đầu</label>
-                        <input type="text" name='quantity' 
-                          value={startTimeSoldDt}
-                          onChange={(e) => setStartTimesoldDt(e.target.value)}
+                        <label htmlFor='startDate'>Ngày bắt đầu</label>
+                        <input 
+                          type="text" 
+                          name='startDate' 
+                          value={ticketData?.startAt ? new Date(ticketData.startAt).toLocaleDateString('vi-VN') : ''}
+                          readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
-                        <label for='quantity'>Ngày kết thúc</label>
-                        <input type="text" name='quantity' 
-                          value={endTimeSoldDt}
-                          onChange={(e) => setEndtimesoldDt(e.target.value)}
+                        <label htmlFor='endDate'>Ngày kết thúc</label>
+                        <input 
+                          type="text" 
+                          name='endDate' 
+                          value={ticketData?.expireAt ? new Date(ticketData.expireAt).toLocaleDateString('vi-VN') : ''}
+                          readOnly
                         />
                       </div>
                     </div>
                     <div className="col-xl-6 col-lg-6 col-md-6">
                       <div className="item-dtticketsold">
-                        <label for='lastused'>Lần cuối sử dụng</label>
-                        <input type="text" name='lastused' 
-                          value={lastUsesoldDt}
-                          onChange={(e) => setlastUsesoldDt(e.target.value)}
+                        <label htmlFor='lastused'>Lần cuối sử dụng</label>
+                        <input 
+                          type="text" 
+                          name='lastused' 
+                          value={ticketData?.usedAt ? new Date(ticketData.usedAt).toLocaleDateString() : ''}
+                          readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
-                        <label for='email'>Email</label>
-                        <input type="text" name='email' 
-                          value={emailsoldDt}
-                          onChange={(e) => setemailsoldDt(e.target.value)}
+                        <label htmlFor='email'>Email</label>
+                        <input 
+                          type="text" 
+                          name='email' 
+                          value={ticketData?.email || ''}
+                          readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
-                        <label for='plate'>Biển số</label>
-                        <input type="text" name='plate' 
-                          value={platesoldDt}
-                          onChange={(e) => setplatesoldDt(e.target.value)}
+                        <label htmlFor='plate'>Biển số</label>
+                        <input 
+                          type="text" 
+                          name='plate' 
+                          value={ticketData?.plate || ''}
+                          readOnly
                         />
                       </div>
                       <div className="item-dtticketsold">
-                        <label for='vehicle'>Phương tiện</label>
-                        <select 
-                          name="vehicle" 
-                          id="vehicle" 
-                          className='select-vehicle'
-                          value={vehiclesoldDt} 
-                          onChange={(e) => setvehiclesoldDt(e.target.value)}
-                        >
-                          <option value="Motorbike">Xe máy</option>
-                          <option value="Car">Ô tô</option>
-                        </select>
+                        <label htmlFor='vehicle'>Phương tiện</label>
+                        <input 
+                          type="text" 
+                          name='vehicle' 
+                          value={ticketData?.vehicle || ''}
+                          readOnly
+                        />
                       </div>
-                    </div>
-                    <div className="col-xl-12 col-lg-12 col-md-12 mt-3">
-                    <div className="box-btn">
-                        <button onClick={handleEdit}>
-                            Sửa
-                        </button>
-                    </div>
                     </div>
                   </div>
                 </div>
@@ -132,7 +140,7 @@ const DetailTicketSold = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default DetailTicketSold;
