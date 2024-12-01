@@ -31,11 +31,11 @@ const GroupTickets = () => {
         if (data.code === 1000) {
           setTickets(data.result);
         } else if (data.code === 5010) {
-          refreshToken()
+          refreshToken();
         } else {
           toast.error(data.message, {
             position: "top-right"
-          })
+          });
         }
       })
       .catch((err) => {
@@ -65,25 +65,24 @@ const GroupTickets = () => {
 
   // Hàm mua vé nhóm qua API
   const handlePurchase = () => {
-    // Kiểm tra nếu chưa chọn ngày bắt đầu và kết thúc
-    if (!dayStart || !dayEnd) {
-      toast.error('Vui lòng chọn ngày bắt đầu và ngày kết thúc.');
+    if (!dayStart) {
+      toast.error('Vui lòng chọn ngày bắt đầu.');
       return;
     }
 
-    // Kiểm tra nếu chưa chọn vé
+    // Nếu ngày kết thúc không được chọn, dùng giá trị mặc định là minDayEnd
+    const finalDayEnd = dayEnd || minDayEnd;
+
     if (!selectedTicket) {
       toast.error('Vui lòng chọn vé trước khi mua.');
       return;
     }
 
-    // Kiểm tra nếu danh sách khách hàng trống
     if (countCustomers() === 0) {
       toast.error('Vui lòng nhập danh sách khách hàng.');
       return;
     }
 
-    // Xử lý danh sách email của khách hàng
     const emails = customerList.trim().split('\n').filter(line => line.trim() !== '').map(customer => customer.trim());
 
     const formatDate = (date) => {
@@ -94,16 +93,13 @@ const GroupTickets = () => {
       return `${day}/${month}/${year}`;
     };
 
-    // Dữ liệu gửi đi
     const payload = {
-      end: formatDate(dayEnd),
+      end: formatDate(finalDayEnd),
       start: formatDate(dayStart),
       categoryId: selectedTicket.id,
       emails: emails,
     };
 
-
-    // Gửi yêu cầu mua vé
     const token = localStorage.getItem('token');
     fetch(endpoint.buyticketforlistEmail.url, {
       method: endpoint.buyticketforlistEmail.method,
@@ -121,11 +117,11 @@ const GroupTickets = () => {
           setDayStart('');
           setDayEnd('');
         } else if (data.code === 5010) {
-          refreshToken()
+          refreshToken();
         } else {
           toast.error(data.message, {
-            position: "top-right"
-          })
+            position: 'top-right',
+          });
         }
       })
       .catch((err) => {
@@ -138,26 +134,21 @@ const GroupTickets = () => {
     const currentDate = new Date();
     const formatDate = (date) => date.toISOString().split('T')[0];
 
-    // Ngày hiện tại
     setToday(formatDate(currentDate));
 
-    // Ngày max cho input ngày bắt đầu (7 ngày sau)
     const maxStart = new Date(currentDate);
     maxStart.setDate(currentDate.getDate() + 7);
     setMaxDayStart(formatDate(maxStart));
 
-    // Ngày max cho input ngày kết thúc (30 ngày sau)
     const maxEnd = new Date(currentDate);
     maxEnd.setDate(currentDate.getDate() + 30);
     setMaxDayEnd(formatDate(maxEnd));
 
-    // Đặt giá trị ban đầu cho ngày bắt đầu và ngày kết thúc
     setDayStart(formatDate(currentDate));
-    setDayEnd(formatDate(currentDate));
+    setDayEnd(''); // Cho phép null ngày kết thúc
   }, []);
 
   useEffect(() => {
-    // Ngày kết thúc phải ít nhất bằng ngày bắt đầu
     setMinDayEnd(dayStart);
   }, [dayStart]);
 
@@ -193,7 +184,6 @@ const GroupTickets = () => {
                         </div>
                       </div>
 
-                      {/* Render tickets from API */}
                       {tickets.map((item, index) => (
                         <div className="col-xl-6 col-lg-6 col-md-6" key={index}>
                           <div className="box-tk-group">
