@@ -5,18 +5,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { endpoint, refreshToken } from '../../../config/apiConfig';
 
 const GroupTickets = () => {
-  const [dayStart, setDayStart] = useState('');    // Ngày bắt đầu
-  const [dayEnd, setDayEnd] = useState('');        // Ngày kết thúc
-  const [selectedTicket, setSelectedTicket] = useState(null); // Vé được chọn
-  const [customerList, setCustomerList] = useState('');  // Danh sách khách hàng
-  const [tickets, setTickets] = useState([]);   // Danh sách vé từ API
+  const [dayStart, setDayStart] = useState('');
+  const [dayEnd, setDayEnd] = useState('');
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [customerList, setCustomerList] = useState('');
+  const [tickets, setTickets] = useState([]);
 
   const [today, setToday] = useState('');
   const [maxDayStart, setMaxDayStart] = useState('');
-  const [minDayEnd, setMinDayEnd] = useState('');
   const [maxDayEnd, setMaxDayEnd] = useState('');
 
-  // Lấy dữ liệu vé từ API khi component được render
   useEffect(() => {
     const token = localStorage.getItem('token');
     fetch(endpoint.lisTicket.url, {
@@ -33,9 +31,7 @@ const GroupTickets = () => {
         } else if (data.code === 5010) {
           refreshToken();
         } else {
-          toast.error(data.message, {
-            position: "top-right"
-          });
+          toast.error(data.message, { position: 'top-right' });
         }
       })
       .catch((err) => {
@@ -44,34 +40,62 @@ const GroupTickets = () => {
       });
   }, []);
 
-  // Hàm chọn hoặc bỏ chọn vé
-  const handleSelectTicket = (ticket) => {
-    if (selectedTicket === ticket) {
-      setSelectedTicket(null);
+  useEffect(() => {
+    const currentDate = new Date();
+    const formatDate = (date) => date.toISOString().split('T')[0];
+
+    setToday(formatDate(currentDate));
+
+    const maxStart = new Date(currentDate);
+    maxStart.setDate(currentDate.getDate() + 7);
+    setMaxDayStart(formatDate(maxStart));
+
+    setDayStart(formatDate(currentDate));
+    setDayEnd(formatDate(currentDate)); // Khởi tạo cùng ngày hiện tại
+  }, []);
+
+  useEffect(() => {
+    if (dayStart) {
+      const maxEndDate = new Date(dayStart);
+      maxEndDate.setDate(maxEndDate.getDate() + 30); // Cộng đúng 30 ngày kể từ ngày bắt đầu
+      setMaxDayEnd(maxEndDate.toISOString().split('T')[0]);
+
+      // Tự động đồng bộ ngày kết thúc nếu nó chưa được chỉnh sửa hoặc rỗng
+      if (!dayEnd || new Date(dayEnd) < new Date(dayStart)) {
+        setDayEnd(dayStart);
+      }
+    }
+  }, [dayStart]);
+
+  const handleDayEndChange = (e) => {
+    const selectedEnd = e.target.value;
+
+    if (new Date(selectedEnd) < new Date(dayStart)) {
+      toast.error('Ngày kết thúc không thể nhỏ hơn ngày bắt đầu.');
     } else {
-      setSelectedTicket(ticket);
+      setDayEnd(selectedEnd);
     }
   };
 
-  // Hàm xử lý khi người dùng thay đổi danh sách khách hàng
+  const handleSelectTicket = (ticket) => {
+    setSelectedTicket(selectedTicket === ticket ? null : ticket);
+  };
+
   const handleCustomerChange = (e) => {
     setCustomerList(e.target.value);
   };
 
-  // Hàm đếm số lượng khách hàng
   const countCustomers = () => {
     return customerList.trim().split('\n').filter(line => line.trim() !== '').length;
   };
 
-  // Hàm mua vé nhóm qua API
   const handlePurchase = () => {
     if (!dayStart) {
       toast.error('Vui lòng chọn ngày bắt đầu.');
       return;
     }
 
-    // Nếu ngày kết thúc không được chọn, dùng giá trị mặc định là minDayEnd
-    const finalDayEnd = dayEnd || minDayEnd;
+    const finalDayEnd = dayEnd || dayStart;
 
     if (!selectedTicket) {
       toast.error('Vui lòng chọn vé trước khi mua.');
@@ -83,14 +107,15 @@ const GroupTickets = () => {
       return;
     }
 
-    const emails = customerList.trim().split('\n').filter(line => line.trim() !== '').map(customer => customer.trim());
+    const emails = customerList
+      .trim()
+      .split('\n')
+      .filter(line => line.trim() !== '')
+      .map(customer => customer.trim());
 
     const formatDate = (date) => {
       const d = new Date(date);
-      const day = String(d.getDate()).padStart(2, '0');
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const year = d.getFullYear();
-      return `${day}/${month}/${year}`;
+      return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
     };
 
     const payload = {
@@ -114,14 +139,10 @@ const GroupTickets = () => {
         if (data.code === 1000) {
           toast.success(`Đã đặt vé thành công cho ${countCustomers()} khách hàng.`);
           setCustomerList('');
-          setDayStart('');
-          setDayEnd('');
         } else if (data.code === 5010) {
           refreshToken();
         } else {
-          toast.error(data.message, {
-            position: 'top-right',
-          });
+          toast.error(data.message, { position: 'top-right' });
         }
       })
       .catch((err) => {
@@ -129,28 +150,6 @@ const GroupTickets = () => {
         toast.error('Lỗi kết nối');
       });
   };
-
-  useEffect(() => {
-    const currentDate = new Date();
-    const formatDate = (date) => date.toISOString().split('T')[0];
-
-    setToday(formatDate(currentDate));
-
-    const maxStart = new Date(currentDate);
-    maxStart.setDate(currentDate.getDate() + 7);
-    setMaxDayStart(formatDate(maxStart));
-
-    const maxEnd = new Date(currentDate);
-    maxEnd.setDate(currentDate.getDate() + 30);
-    setMaxDayEnd(formatDate(maxEnd));
-
-    setDayStart(formatDate(currentDate));
-    setDayEnd(''); // Cho phép null ngày kết thúc
-  }, []);
-
-  useEffect(() => {
-    setMinDayEnd(dayStart);
-  }, [dayStart]);
 
   return (
     <div className='warraper-groupTicket'>
@@ -177,9 +176,9 @@ const GroupTickets = () => {
                           <input
                             type="date"
                             value={dayEnd}
-                            min={minDayEnd}
+                            min={dayStart}
                             max={maxDayEnd}
-                            onChange={(e) => setDayEnd(e.target.value)}
+                            onChange={handleDayEndChange}
                           />
                         </div>
                       </div>
