@@ -53,7 +53,14 @@ const TkTicketSales = () => {
                         type="number"
                         placeholder='Nhập tháng...'
                         value={monthRvn}
-                        onChange={(e) => setMonthRvn(Number(e.target.value))}
+                        onChange={(e) => {
+                            const value = Number(e.target.value);
+                            if (value >= 1 && value <= 12) {
+                                setMonthRvn(value);
+                            }
+                        }}
+                        min="1"
+                        max="12"
                     />
                     <span>Năm</span>
                     <input

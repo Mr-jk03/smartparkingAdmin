@@ -46,6 +46,11 @@ const DepositHistorys = () => {
                             setDeposits(data.result)
                             setConcat(true);
                         }
+
+                    else if(page == 1) { //kkkkkkkkkkkkk
+                        setDeposits(data.result)
+                        setMaxPage(true)
+                    }    
                     else {
                         setMaxPage(true)
                     }
@@ -84,6 +89,19 @@ const DepositHistorys = () => {
                 setPage(prevPage => prevPage + 1);
         }
     };
+
+    const getDepositStatus = (cancelAt, actionAt) => {
+        console.log(cancelAt)
+        console.log(actionAt)
+        if (cancelAt !== null) {
+            return "Đã huỷ";
+        } else if (actionAt !== null) {
+            return "Đã duyệt";
+        } else {
+            return "Chờ duyệt";
+        }
+    };
+    
 
     return (
 
@@ -145,8 +163,9 @@ const DepositHistorys = () => {
                                         <div className="col-xl-3 col-lg-3 col-md-3 style-tb">{deposit.ownerId}</div>
                                         <div className="col-xl-2 col-lg-2 col-md-2 style-tb">{deposit.amount}</div>
                                         <div className="col-xl-2 col-lg-2 col-md-2 style-tb">{new Date(deposit.createAt).toLocaleString()}</div>
-                                        <div className="col-xl-2 col-lg-2 col-md-2 style-tb">{deposit.actionBy || "N/A"}</div>
-                                        <div className="col-xl-2 col-lg-2 col-md-2 style-tb">{deposit.trang_thai || "Chưa xác định"}</div>
+                                        <div className="col-xl-2 col-lg-2 col-md-2 style-tb">{deposit.actionBy === 'CALLBACK VNPAY' ? 'Tự động' : 'Admin'}</div>
+                                        <div className="col-xl-2 col-lg-2 col-md-2 style-tb">{getDepositStatus(deposit.cancelAt, deposit.actionAt)}
+                                        </div>
                                     </div>
                                 ))}
                             </div>

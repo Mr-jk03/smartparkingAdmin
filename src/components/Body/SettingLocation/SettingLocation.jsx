@@ -60,7 +60,7 @@ const SettingLocation = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.code === 1000) {
-                    toast.success('Cập nhật vé thành công', { position: 'top-right' })
+                    toast.success('Cập nhật vị trí đỗ thành công', { position: 'top-right' })
                 } else if (data.code === 5010) {
                     refreshToken()
                 } else {

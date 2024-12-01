@@ -103,7 +103,7 @@ const DetailListAcount = () => {
                                                 <input
                                                     type="text"
                                                     value={idcustomerDt}
-
+                                                    readOnly
                                                 />
                                             </div>
                                             <div className="item-dtlistacount">
@@ -111,7 +111,7 @@ const DetailListAcount = () => {
                                                 <input
                                                     type="text"
                                                     value={emailAcountDt}
-                                                    onChange={(e) => setEmailAcountDt(e.target.value)}
+                                                    onChange={(e) => setEmailAcountDt(e.target.value)} readOnly
                                                 />
                                             </div>
                                             <div className="item-dtlistacount">
@@ -119,7 +119,7 @@ const DetailListAcount = () => {
                                                 <input
                                                     type="text"
                                                     value={nameAccountDt}
-                                                    onChange={(e) => setNameAccountDt(e.target.value)}
+                                                    onChange={(e) => setNameAccountDt(e.target.value)} readOnly
                                                 />
                                             </div>
                                             <div className="item-dtlistacount">
@@ -127,7 +127,7 @@ const DetailListAcount = () => {
                                                 <input
                                                     type="text"
                                                     value={phoneAcountDt}
-                                                    onChange={(e) => setPhoneAcountDt(e.target.value)}
+                                                    onChange={(e) => setPhoneAcountDt(e.target.value)} readOnly
                                                 />
                                             </div>
                                         </div>
@@ -137,7 +137,7 @@ const DetailListAcount = () => {
                                                 <input
                                                     type="text"
                                                     value={conSumptionDt}
-                                                    onChange={(e) => setConsumptionDt(e.target.value)}
+                                                    onChange={(e) => setConsumptionDt(e.target.value)} readOnly
                                                 />
                                             </div>
                                             <div className="item-dtlistacount">
@@ -145,7 +145,7 @@ const DetailListAcount = () => {
                                                 <input
                                                     type="text"
                                                     value={ticketBoughtDt}
-                                                    onChange={(e) => setTicketBoughtDt(e.target.value)}
+                                                    onChange={(e) => setTicketBoughtDt(e.target.value)} readOnly
                                                 />
                                             </div>
                                             <div className="item-dtlistacount">
@@ -153,7 +153,7 @@ const DetailListAcount = () => {
                                                 <input
                                                     type="text"
                                                     value={nowBalanceDt}
-                                                    onChange={(e) => setNowbalanceDt(e.target.value)}
+                                                    onChange={(e) => setNowbalanceDt(e.target.value)} readOnly
                                                 />
                                             </div>
                                             <div className="item-dtlistacount">
@@ -162,7 +162,7 @@ const DetailListAcount = () => {
                                                     onChange={handleChangeStatus}
                                                 >
                                                     <option value="Active" selected={statusDt === "Đang hoạt động"}>Đang hoạt động</option>
-                                                    <option value="Inactive" selected={statusDt === "Đã khoá"}>Ngưng hoạt động</option>
+                                                    <option value="Inactive" selected={statusDt === "Đã khoá"}>Ngừng hoạt động</option>
                                                 </select>
                                             </div>
                                         </div>

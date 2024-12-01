@@ -143,7 +143,7 @@ const ListAccounts = () => {
                     <div className="col-xl-2 col-lg-2 col-md-2">{customer.id}</div>
                     <div className="col-xl-3 col-lg-3 col-md-3">{customer.email}</div>
                     <div className="col-xl-2 col-lg-2 col-md-2">{customer.name}</div>
-                    <div className="col-xl-2 col-lg-2 col-md-2">{customer.sdt || 'N/A'}</div>
+                    <div className="col-xl-2 col-lg-2 col-md-2">{customer.sdt !== null ? customer.sdt : "Chưa đăng kí"}</div>
                     <div className="col-xl-1 col-lg-1 col-md-1">{customer.status}</div>
                     <div className="col-xl-1 col-lg-1 col-md-1 d-flex justify-content-center align-items-center">
                       <Link to={`/detaillistaccount/${customer.id}`}>

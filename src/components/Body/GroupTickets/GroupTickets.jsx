@@ -11,6 +11,11 @@ const GroupTickets = () => {
   const [customerList, setCustomerList] = useState('');  // Danh sách khách hàng
   const [tickets, setTickets] = useState([]);   // Danh sách vé từ API
 
+  const [today, setToday] = useState('');
+  const [maxDayStart, setMaxDayStart] = useState('');
+  const [minDayEnd, setMinDayEnd] = useState('');
+  const [maxDayEnd, setMaxDayEnd] = useState('');
+
   // Lấy dữ liệu vé từ API khi component được render
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -129,6 +134,33 @@ const GroupTickets = () => {
       });
   };
 
+  useEffect(() => {
+    const currentDate = new Date();
+    const formatDate = (date) => date.toISOString().split('T')[0];
+
+    // Ngày hiện tại
+    setToday(formatDate(currentDate));
+
+    // Ngày max cho input ngày bắt đầu (7 ngày sau)
+    const maxStart = new Date(currentDate);
+    maxStart.setDate(currentDate.getDate() + 7);
+    setMaxDayStart(formatDate(maxStart));
+
+    // Ngày max cho input ngày kết thúc (30 ngày sau)
+    const maxEnd = new Date(currentDate);
+    maxEnd.setDate(currentDate.getDate() + 30);
+    setMaxDayEnd(formatDate(maxEnd));
+
+    // Đặt giá trị ban đầu cho ngày bắt đầu và ngày kết thúc
+    setDayStart(formatDate(currentDate));
+    setDayEnd(formatDate(currentDate));
+  }, []);
+
+  useEffect(() => {
+    // Ngày kết thúc phải ít nhất bằng ngày bắt đầu
+    setMinDayEnd(dayStart);
+  }, [dayStart]);
+
   return (
     <div className='warraper-groupTicket'>
       <div className="container">
@@ -146,12 +178,16 @@ const GroupTickets = () => {
                           <input
                             type="date"
                             value={dayStart}
+                            min={today}
+                            max={maxDayStart}
                             onChange={(e) => setDayStart(e.target.value)}
                           />
                           <span>Ngày kết thúc</span>
                           <input
                             type="date"
                             value={dayEnd}
+                            min={minDayEnd}
+                            max={maxDayEnd}
                             onChange={(e) => setDayEnd(e.target.value)}
                           />
                         </div>
@@ -185,7 +221,7 @@ const GroupTickets = () => {
                     className='text-area mt-3'
                     value={customerList}
                     onChange={handleCustomerChange}
-                    placeholder="Nhập tên và email khách hàng, mỗi dòng một khách hàng"
+                    placeholder="Nhập email khách hàng, mỗi dòng một khách hàng"
                   />
                   <button className='btn-buyticket' onClick={handlePurchase}>Mua</button>
                 </div>
