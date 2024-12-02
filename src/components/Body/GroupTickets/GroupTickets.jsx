@@ -42,8 +42,10 @@ const GroupTickets = () => {
 
   useEffect(() => {
     const currentDate = new Date();
-    const formatDate = (date) => date.toISOString().split('T')[0];
-
+    const formatDate = (date) => {
+      const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
+      return localDate.toISOString().split('T')[0]
+    };
     setToday(formatDate(currentDate));
 
     const maxStart = new Date(currentDate);
