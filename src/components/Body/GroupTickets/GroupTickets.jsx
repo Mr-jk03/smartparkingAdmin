@@ -139,7 +139,7 @@ const GroupTickets = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.code === 1000) {
-          toast.success(`Đã đặt vé thành công cho ${countCustomers()} khách hàng.`);
+          toast.success(`Đã đặt vé thành công cho ${data.result.length} khách hàng.`);
           setCustomerList('');
         } else if (data.code === 5010) {
           refreshToken();
