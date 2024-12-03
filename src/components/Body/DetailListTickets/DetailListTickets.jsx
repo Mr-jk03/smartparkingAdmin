@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './DetailListTickets.css';
 import { useParams } from 'react-router-dom';
 import { endpoint, refreshToken } from '../../../config/apiConfig';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 const DetailListTickets = () => {
   const { id } = useParams();
@@ -112,7 +112,7 @@ const DetailListTickets = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.code === 1000) {
-          toast.success('Cập nhật giá và phương tiện thành công', { position: 'top-right' });
+          toast.success('Cập nhật giá thành công', { position: 'top-right' });
         } else if (data.code === 5010) {
           refreshToken()
         } else {
@@ -130,6 +130,7 @@ const DetailListTickets = () => {
 
   return (
     <div className="wrapper-detailtk">
+      <ToastContainer />
       <div className="container">
         <div className="row">
           <span className="title-detailtk">Chi tiết vé</span>
@@ -189,7 +190,7 @@ const DetailListTickets = () => {
                         <select
                           value={vehicle}
                           className="select-vehicle"
-                          onChange={(e) => setVehicle(e.target.value)}
+                          onChange={(e) => setVehicle(e.target.value)} readOnly
                         >
                           <option value="Car">Car</option>
                           <option value="Motorbike">Motorbike</option>

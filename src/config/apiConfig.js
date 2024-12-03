@@ -91,7 +91,12 @@ export const endpoint = {
     patch_price_ticket: { /*cap nhat gia ve trong cua hang ---doi fig api*/
         url: baseApi + "/ticket/category",
         method: "PATCH"
+    },
+    create_ticket:{
+        url: baseApi + "/ticket/category",
+        method: "POST"
     }
+
 
 
 
