@@ -161,8 +161,8 @@ const DepositHistorys = () => {
                                     <div className="row" key={index}>
                                         <div className="col-xl-1 col-lg-1 col-md-1 style-tb">{index + 1}</div>
                                         <div className="col-xl-3 col-lg-3 col-md-3 style-tb">{deposit.ownerId}</div>
-                                        <div className="col-xl-2 col-lg-2 col-md-2 style-tb">{deposit.amount}</div>
-                                        <div className="col-xl-2 col-lg-2 col-md-2 style-tb">{new Date(deposit.createAt).toLocaleString()}</div>
+                                        <div className="col-xl-2 col-lg-2 col-md-2 style-tb">{deposit.amount.toLocaleString('vi-VN')}</div>
+                                        <div className="col-xl-2 col-lg-2 col-md-2 style-tb">{new Date(deposit.createAt).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}</div>
                                         <div className="col-xl-2 col-lg-2 col-md-2 style-tb">{deposit.actionBy === 'CALLBACK VNPAY' ? 'Tự động' : 'Admin'}</div>
                                         <div className="col-xl-2 col-lg-2 col-md-2 style-tb">{getDepositStatus(deposit.cancelAt, deposit.actionAt)}
                                         </div>
