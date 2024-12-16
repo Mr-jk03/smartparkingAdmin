@@ -8,7 +8,7 @@ const CreateTicket = () => {
   const [idTicket, setIDticket] = useState('');
   const [priceTicket, setPriceTicket] = useState('');
   const [nameTicket, setNameTicket] = useState('');
-  const [unit, setUnit] = useState('day'); 
+  const [unit, setUnit] = useState('DAY');
   const [vehicle, setVehicle] = useState('');
   const [status, setStatus] = useState('ACTIVE');
   const [quantity, setQuantity] = useState();
@@ -38,8 +38,7 @@ const CreateTicket = () => {
     if (value === 'limited') {
       handleLimited(); // Xử lý Swal khi chọn giới hạn
     } else {
-      setQuantity(0); // Không giới hạn
-      setUnit(value);
+      setQuantity(0);
     }
   };
 
@@ -184,7 +183,7 @@ const CreateTicket = () => {
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
               >
-                <option value="day">Ngày</option>
+                <option value="DAY">Ngày</option>
               </select>
             </div>
           </div>

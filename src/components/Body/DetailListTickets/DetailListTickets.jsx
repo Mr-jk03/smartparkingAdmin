@@ -168,8 +168,8 @@ const DetailListTickets = () => {
                           className="select-vehicle"
                           onChange={(e) => setStatusTicket(e.target.value)}
                         >
-                          <option value="ACTIVE">ACTIVE</option>
-                          <option value="INACTIVE">INACTIVE</option>
+                          <option value="ACTIVE">Công khai</option>
+                          <option value="INACTIVE">Ẩn</option>
                         </select>
                       </div>
                     </div>
@@ -188,12 +188,13 @@ const DetailListTickets = () => {
                       <div className="item">
                         <label htmlFor="vehicle"><b>Phương tiện:</b></label>
                         <select
-                          value={vehicle}
+                          value={vehicle.toUpperCase()}
                           className="select-vehicle"
-                          onChange={(e) => setVehicle(e.target.value)} readOnly
+                          // onChange={(e) => setVehicle(e.target.value)} 
+                          readOnly
                         >
-                          <option value="Car">Car</option>
-                          <option value="Motorbike">Motorbike</option>
+                          <option value="CAR">Ô tô</option>
+                          <option value="MOTORBIKE">xe máy</option>
                         </select>
                       </div>
 

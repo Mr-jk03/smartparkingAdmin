@@ -80,7 +80,8 @@ const Ticketssold = () => {
     setPage(1)
     setConcat(false)
     setTimeStart(value);
-    setIsStartDateSelected(true); // Ghi nhận người dùng đã chọn ngày "Từ"
+    setIsStartDateSelected(true);
+    setTimeEnd(value)
   };
 
   const handleScroll = (e) => {
@@ -116,6 +117,7 @@ const Ticketssold = () => {
                     type="date"
                     value={timeEnd}
                     onChange={(e) => setTimeEnd(e.target.value)}
+                    min={timeStart}
                   />
                 </div>
               </div>
